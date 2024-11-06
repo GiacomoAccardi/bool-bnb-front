@@ -15,26 +15,26 @@
             </div>
             <div class="col-12 mt-5 text-center">
                 <h1>Benvenuti da Bool BNB</h1>
-                <h2>Scopri quanto è facile affittare il tuo appartamento preferito.</h2>
+                <h2>Scopri quanto è facile prenotare un soggiorno da sogno nel nostro accogliente B&B.</h2>
             </div>
         </div>
         <div class="row">
             <div class="col-4">
                 <div class="content text-center">
                     <img class="search-img mt-5" src="../assets/search.png">
-                    <p class="mt-3">puoi cercare l'appartamento giusto per te <br> in modo facile e veloce </p>
+                    <p class="mt-3">Trova il soggiorno perfetto per te, in modo rapido e semplice. Scegli tra le nostre camere accoglienti e prenota facilmente online. </p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="content text-center">
                     <img class="search-img mt-5" src="../assets/travel-agency.png">
-                    <p class="mt-3">Confronta centinaia di prezzi e scopri l'offerta<br> più adatta a te</p>
+                    <p class="mt-3">Confronta le nostre opzioni e scegli la migliore per te. Offriamo camere diverse per soddisfare ogni esigenza, sia che tu voglia una fuga romantica o una vacanza in famiglia.</p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="content text-center">
                     <img class="search-img mt-5" src="../assets/money.png">
-                    <p class="mt-3">Risparmia alla grande e scopri le nostre offerte per prenotare l'appartamento dei tuoi sogni</p>
+                    <p class="mt-3">Approfitta delle nostre offerte speciali e pacchetti sconto. Prenota direttamente e risparmia sulla tua prossima avventura!</p>
                 </div>
             </div>
         </div>
@@ -58,6 +58,7 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div>
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
     
@@ -74,6 +75,7 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div> 
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
     
@@ -90,6 +92,7 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div>
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
     
@@ -106,6 +109,7 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div>
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
     
@@ -122,6 +126,7 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div>
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
     
@@ -138,13 +143,43 @@
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                         <i class="fa-solid fa-star" style="color: #FFD43B;"></i>
                     </div>
+                    <a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
                 </div>
             </div>
         </div>
     </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mt-5">Resta aggiornato per scoprire le nostre offerte</h1>
+            </div>
+        </div>
+        <div class="row mt-5 mb-5 g-0">
+            <!-- Colonna con l'immagine e testo sopra -->
+            <div class="col-9 position-relative">
+                <!-- Immagine di sfondo -->
+                <img class="offerte dark-image img-fluid" src="../assets/offerte.jpg" alt="Firenze">
     
-    
-    
+                <!-- Testo sopra l'immagine -->
+                <div class="offer-text position-absolute top-0 start-0 m-3">
+                    <h4 class="text-white font-weight-bold">Scopri le migliori offerte</h4>
+                </div>
+                <div class="position-absolute bottom-0 end-0 mb-5 me-2">
+                    <p class="text-white font-weight-bold">utilizza il codice promozionale!</p>
+                </div>
+                <!-- Bottone sopra l'immagine -->
+                <div class="position-absolute bottom-0 end-0 m-3">
+                    <a href="#" class="btn btn-primary rounded-4">winter 2024</a>
+                </div>
+            </div>
+            <div class="col-3 bg-yellow d-flex justify-content-center align-items-center">
+                <div class="text-center">
+                    <p class="text-white">Sconto del</p>
+                    <h2 class="text-white">50%</h2>
+                </div>
+            </div>
+        </div>
+  </div>
   </template>
   
   <script>
@@ -186,7 +221,7 @@
     padding: 10px 24px;
     background-color: transparent;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    transition: all 0.7s cubic-bezier(0.23, 1, 0.320, 1);
     overflow: hidden;
     margin-bottom: 30px;
   }
@@ -221,6 +256,20 @@
 
   .img-fluid{
     height: 300px;;
+  }
+
+  .offerte{
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
+  }
+
+  .bg-yellow{
+    background-color: rgb(255, 179, 0);
+  }
+
+  .dark-image{
+    filter: brightness(50%);
   }
   
   </style>

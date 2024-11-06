@@ -14,8 +14,8 @@ export default {
             <div class="content">
                 <ul class="list-unstyled mt-3 d-flex justify-content-end">
                     <li class="mx-3"><a class="text-decoration-none text-black" href="#">Home</a></li>
-                    <li class="mx-3"><a class="text-decoration-none text-black" href="#">Chi siamo</a></li>
-                    <li class="mx-3"><a class="text-decoration-none text-black" href="#">Contatti</a></li>
+                    <li class="mx-3"><a class="text-decoration-none text-black" href="#">Book & rooms</a></li>
+                    <li class="mx-3"><a class="text-decoration-none text-black" href="#">About US</a></li>
                 </ul>
             </div>
         </div>
