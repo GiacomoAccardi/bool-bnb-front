@@ -155,19 +155,14 @@
             </div>
         </div>
         <div class="row mt-5 mb-5 g-0">
-            <!-- Colonna con l'immagine e testo sopra -->
             <div class="col-9 position-relative">
-                <!-- Immagine di sfondo -->
                 <img class="offerte dark-image img-fluid" src="../assets/offerte.jpg" alt="Firenze">
-    
-                <!-- Testo sopra l'immagine -->
                 <div class="offer-text position-absolute top-0 start-0 m-3">
                     <h4 class="text-white font-weight-bold">Scopri le migliori offerte</h4>
                 </div>
                 <div class="position-absolute bottom-0 end-0 mb-5 me-2">
                     <p class="text-white font-weight-bold">utilizza il codice promozionale!</p>
                 </div>
-                <!-- Bottone sopra l'immagine -->
                 <div class="position-absolute bottom-0 end-0 m-3">
                     <a href="#" class="btn btn-primary rounded-4">winter 2024</a>
                 </div>
