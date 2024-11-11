@@ -1,44 +1,127 @@
+<script>
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      searchQuery: {
+        query: '',   // Testo della query di ricerca (nome immobile)
+        city: '',    // Città
+        rooms: '',   // Numero di stanze
+      },
+      realEstates: [],           // Lista completa di immobili
+      filteredRealEstates: [],   // Lista filtrata che verrà mostrata
+    };
+  },
+  methods: {
+    // Funzione per eseguire la ricerca (GET)
+    async onSearch() {
+      try {
+        // Prepara i parametri di ricerca
+        const params = {
+          city: this.searchQuery.city,
+          rooms: this.searchQuery.rooms,
+        };
+
+        // Fai una richiesta GET al back-end con i parametri di ricerca
+        const response = await axios.get('http://127.0.0.1:8000/api/real-estates', { params });
+
+        // Salva i risultati nella variabile 'realEstates'
+        this.realEstates = response.data;
+
+        // Dopo aver ottenuto i dati, applica i filtri
+        this.applyFilters();
+      } catch (error) {
+        console.error('Errore durante la ricerca:', error);
+      }
+    },
+
+    // Funzione per applicare i filtri agli immobili
+    applyFilters() {
+      let filtered = this.realEstates;
+
+      // Filtro per la ricerca in base alla query (ricerca per nome o città)
+      if (this.searchQuery.query) {
+        const queryLower = this.searchQuery.query.toLowerCase();
+        filtered = filtered.filter(estate =>
+          estate.title.toLowerCase().includes(queryLower) ||
+          estate.city.toLowerCase().includes(queryLower)
+        );
+      }
+
+      // Filtro per la rcerca in base alla città
+      if (this.searchQuery.city) {
+        const cityLower = this.searchQuery.city.toLowerCase();
+        filtered = filtered.filter(estate => estate.city.toLowerCase().includes(cityLower));
+      }
+
+      // Filtro per la ricerca in base al numero di stanze
+      if (this.searchQuery.rooms) {
+        filtered = filtered.filter(estate => estate.rooms == this.searchQuery.rooms);
+      }
+
+      // Salvo il risultato filtrato
+      this.filteredRealEstates = filtered;
+    },
+  },
+  watch: {
+    //  creo un Watch per il cambiamento della query di ricerca
+    'searchQuery.query': function() {
+      this.applyFilters();
+    },
+    'searchQuery.city': function() {
+      this.applyFilters();
+    },
+    'searchQuery.rooms': function() {
+      this.applyFilters();
+    },
+  },
+  mounted() {
+    // Carica inizialmente tutti gli immobili
+    this.onSearch();
+  }
+};
+</script>
 <template>
     <div class="container-sm">
-        <div class="row">
-            <div class="col-12 text-center mt-3">
-                <div class="search-bar">
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fas fa-search"></i></span>
-                        <input type="text" class="form-control" placeholder="Dove vuoi andare?" aria-label="Search">
-                        <input type="number" class="form-control" placeholder="Prezzo Min" aria-label="Prezzo Min">
-                        <input type="number" class="form-control" placeholder="Prezzo Max" aria-label="Prezzo Max">
-                        <input type="number" class="form-control" placeholder="Numero Stanze" aria-label="Numero Stanze">
-                        <button class="btn btn-primary">Cerca</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 mt-5 text-center">
-                <h1>Benvenuti da Bool BNB</h1>
-                <h2>Scopri quanto è facile prenotare un soggiorno da sogno nel nostro accogliente B&B.</h2>
-            </div>
+      <div class="search-bar mb-5 mt-5">
+        <div class="input-group mt-5">
+          <span class="input-group-text mt-5"><i class="fas fa-search"></i></span>
+          <input type="text" class="form-control mt-5" v-model="searchQuery.query" placeholder="Dove vuoi andare?" aria-label="Search"/>
+          <input type="number" class="form-control mt-5" v-model="searchQuery.rooms" placeholder="Numero Stanze" aria-label="Numero Stanze"/>
         </div>
+      </div>
+
+      <!-- sezione filtro avanzato -->
+       <div class="container">
         <div class="row">
-            <div class="col-4">
-                <div class="content text-center">
-                    <img class="search-img mt-5" src="../assets/search.png">
-                    <p class="mt-3">Trova il soggiorno perfetto per te, in modo rapido e semplice. Scegli tra le nostre camere accoglienti e prenota facilmente online. </p>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="content text-center">
-                    <img class="search-img mt-5" src="../assets/travel-agency.png">
-                    <p class="mt-3">Confronta le nostre opzioni e scegli la migliore per te. Offriamo camere diverse per soddisfare ogni esigenza, sia che tu voglia una fuga romantica o una vacanza in famiglia.</p>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="content text-center">
-                    <img class="search-img mt-5" src="../assets/money.png">
-                    <p class="mt-3">Approfitta delle nostre offerte speciali e pacchetti sconto. Prenota direttamente e risparmia sulla tua prossima avventura!</p>
-                </div>
-            </div>
+          
         </div>
+       </div>
+
+
+      <div class="container">
+        <div class="row g-1">
+          <div v-for="realEstate in filteredRealEstates" :key="realEstate.id" class="col-4">
+            <div class="card mb-3 mt-3" style="width: 400px; min-height: 180px;">
+              <div class="row g-1">
+                <div class="col-lg-4">
+                    <img :src="'http://127.0.0.1:8000/storage/' + realEstate.portrait + '?v=' + new Date().getTime()" class="card-img"  alt="Immobile" />
+                </div>
+                <div class="col-lg-6">
+                  <div class="card-body">
+                    <h5 class="card-title">{{ realEstate.title }}</h5>
+                    <p class="card-text">{{ realEstate.address }}, {{ realEstate.city }}</p>
+                    <p class="card-text">€ {{ realEstate.price }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="container-fluid bg">
         <div class="row">
             <div class="col-12 text-center mt-5">
@@ -176,13 +259,6 @@
         </div>
   </div>
   </template>
-  
-  <script>
-  export default {
-    name: "AppHome",
-  };
-  </script>
-  
   <style lang="scss" scoped>
   
   .container-sm{
@@ -265,6 +341,12 @@
 
   .dark-image{
     filter: brightness(50%);
+  }
+
+  .card-img{
+    width: 100%;
+    object-fit: cover;
+    height: 200px;
   }
   
   </style>
