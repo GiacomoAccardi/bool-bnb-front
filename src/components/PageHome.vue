@@ -11,6 +11,8 @@ export default {
       },
       realEstates: [],           // Lista completa di immobili
       filteredRealEstates: [],   // Lista filtrata che verrà mostrata
+      services: [],              // Lista completa di servizi
+      activeServices: [],        // Lista dei servizi attivi (servizi selezionati)
     };
   },
   methods: {
@@ -23,11 +25,13 @@ export default {
           rooms: this.searchQuery.rooms,
         };
 
-        // Fai una richiesta GET al back-end con i parametri di ricerca
+        // Fai una richiesta GET al back-end con i parametri di ricerca e i servizi
         const response = await axios.get('http://127.0.0.1:8000/api/real-estates', { params });
-
+        const service = await axios.get('http://127.0.0.1:8000/api/services');
+        
         // Salva i risultati nella variabile 'realEstates'
         this.realEstates = response.data;
+        this.services = service.data.data;
 
         // Dopo aver ottenuto i dati, applica i filtri
         this.applyFilters();
@@ -35,7 +39,7 @@ export default {
         console.error('Errore durante la ricerca:', error);
       }
     },
-
+     
     // Funzione per applicare i filtri agli immobili
     applyFilters() {
       let filtered = this.realEstates;
@@ -49,13 +53,22 @@ export default {
         );
       }
 
-      // Filtro per la rcerca in base alla città
+      // Filtro per i servizi attivi
+      if (this.activeServices.length > 0) {
+        filtered = filtered.filter(estate => 
+          this.activeServices.every(serviceId => 
+            estate.services.some(service => service.id === serviceId)
+          )
+        );
+      }
+
+      // Filtro per la città
       if (this.searchQuery.city) {
         const cityLower = this.searchQuery.city.toLowerCase();
         filtered = filtered.filter(estate => estate.city.toLowerCase().includes(cityLower));
       }
 
-      // Filtro per la ricerca in base al numero di stanze
+      // Filtro per il numero di stanze
       if (this.searchQuery.rooms) {
         filtered = filtered.filter(estate => estate.rooms == this.searchQuery.rooms);
       }
@@ -63,9 +76,23 @@ export default {
       // Salvo il risultato filtrato
       this.filteredRealEstates = filtered;
     },
+
+    // Metodo per gestire la selezione/deselezione del servizio
+    toggleService(serviceId) {
+      if (this.activeServices.includes(serviceId)) {
+        // Se il servizio è già attivo, rimuovilo
+        this.activeServices = this.activeServices.filter(id => id !== serviceId);
+      } else {
+        // Altrimenti, aggiungi il servizio attivo
+        this.activeServices.push(serviceId);
+      }
+
+      // Applica i filtri dopo la selezione
+      this.applyFilters();
+    },
   },
   watch: {
-    //  creo un Watch per il cambiamento della query di ricerca
+    // Creo un Watch per il cambiamento della query di ricerca
     'searchQuery.query': function() {
       this.applyFilters();
     },
@@ -82,7 +109,9 @@ export default {
   }
 };
 </script>
+
 <template>
+    <!-- sezione per la ricerca -->
     <div class="container-sm">
       <div class="search-bar mb-5 mt-5">
         <div class="input-group mt-5">
@@ -92,14 +121,18 @@ export default {
         </div>
       </div>
 
-      <!-- sezione filtro avanzato -->
-       <div class="container">
-        <div class="row">
-          
+      <!-- sezione filtro avanzato per i servizi -->
+      <div class="text-center mb-4">
+        <div v-for="service in services" :key="service.id" class="btn">
+          <!-- Contenitore per ogni icona -->
+          <div
+            class="service-icon d-flex justify-content-center align-items-center" style="height: 40px; width: 35px;" @click="toggleService(service.id)" :style="{'color': activeServices.includes(service.id) ? 'blue' : 'initial'}">
+            <!-- Mostra l'icona del servizio -->
+            <i :class="service.icon + ' fa-2x'"></i>
+          </div>
         </div>
-       </div>
-
-
+      </div>
+       <!-- sezione che cicla i miei appartamenti -->
       <div class="container">
         <div class="row g-1">
           <div v-for="realEstate in filteredRealEstates" :key="realEstate.id" class="col-4">

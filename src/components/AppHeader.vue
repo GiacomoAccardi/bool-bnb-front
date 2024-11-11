@@ -9,7 +9,6 @@
             <div class="content">
               <ul class="list-unstyled mt-3 d-flex justify-content-end">
                 <li class="mx-3"><router-link to="/" class="text-decoration-none text-black" active-class="active-link" exact> Home </router-link></li>
-                <li class="mx-3"><router-link to="/rooms" class="text-decoration-none text-black" active-class="active-link"> Rooms </router-link></li>
                 <li class="mx-3"><a href="#" class="text-decoration-none text-black">About US</a></li>
                 <li class="mx-3"><a href="#" class="text-decoration-none text-black">Activities</a></li>
                 <li class="mx-3"><a href="#" class="text-decoration-none text-black">Contacts</a></li>

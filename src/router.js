@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import PageHome from './components/PageHome.vue';
-import RoomsPage from './components/RoomsPage.vue';
+
 
 const routes = [
     {
@@ -9,11 +9,7 @@ const routes = [
         name: 'home',
         component: PageHome,
     },
-    {
-        path: '/rooms',
-        name: 'rooms',
-        component: RoomsPage,
-    },
+
 ];
 
 const router = createRouter({
