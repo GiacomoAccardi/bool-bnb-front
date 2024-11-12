@@ -11,9 +11,10 @@ export default {
 				email: "",
 				phone: "",
 				message: "",
-				real_estate_id: this.$route.params.id, // Aggiungi dinamicamente l'id dell'immobile
+				real_estate_id: this.$route.params.id,
 			},
-			errors: {}, // Per memorizzare gli errori di validazione
+			errors: {},
+			showSuccessModal: false, // Variabile per controllare la visibilità della modale
 		};
 	},
 	async created() {
@@ -40,8 +41,10 @@ export default {
 				);
 				// Gestisci la risposta, ad esempio, mostra un messaggio di successo
 				console.log("Messaggio inviato con successo:", response.data);
-				// Puoi anche mostrare un messaggio di successo per l'utente
-				alert("Messaggio inviato con successo!");
+
+				// Mostra la modale di successo
+				this.showSuccessModal = true;
+
 				// Reset del form
 				this.formData = {
 					name: "",
@@ -60,6 +63,10 @@ export default {
 					alert("Si è verificato un errore durante l'invio del messaggio.");
 				}
 			}
+		},
+		// Funzione per chiudere la modale
+		closeModal() {
+			this.showSuccessModal = false;
 		},
 	},
 };
@@ -96,10 +103,10 @@ export default {
 						</p>
 					</div>
 					<div class="services">
-						<h4>Servizi disponibili:</h4>
-						<ul>
+						<p><strong>Servizi disponibili:</strong></p>
+						<ul class="list-unstyled">
 							<li v-for="service in realEstate.services" :key="service.id">
-								{{ service.name }}
+								<i :class="service.icon"></i> {{ service.name }}
 							</li>
 						</ul>
 					</div>
@@ -108,7 +115,6 @@ export default {
 				<div class="col-6">
 					<div class="contact-form">
 						<form @submit.prevent="submitForm">
-							<!-- Nome -->
 							<div class="form-group">
 								<label for="name">Nome</label>
 								<input
@@ -122,7 +128,6 @@ export default {
 								</div>
 							</div>
 
-							<!-- Cognome -->
 							<div class="form-group">
 								<label for="surname">Cognome</label>
 								<input
@@ -136,7 +141,6 @@ export default {
 								</div>
 							</div>
 
-							<!-- Email -->
 							<div class="form-group">
 								<label for="email">Email</label>
 								<input
@@ -150,7 +154,6 @@ export default {
 								</div>
 							</div>
 
-							<!-- Telefono -->
 							<div class="form-group">
 								<label for="phone">Telefono</label>
 								<input
@@ -164,7 +167,6 @@ export default {
 								</div>
 							</div>
 
-							<!-- Messaggio -->
 							<div class="form-group">
 								<label for="message">Messaggio</label>
 								<textarea
@@ -177,7 +179,6 @@ export default {
 								</div>
 							</div>
 
-							<!-- ID Immobile (nascosto) -->
 							<input type="hidden" v-model="formData.real_estate_id" />
 
 							<button type="submit" class="btn btn-primary mt-3">Invia</button>
@@ -186,8 +187,36 @@ export default {
 				</div>
 			</div>
 
+			<!-- Modale di Successo -->
+			<div
+				v-if="showSuccessModal"
+				class="modal show"
+				id="successModal"
+				tabindex="-1"
+				aria-labelledby="successModalLabel"
+				aria-hidden="true"
+				style="display: block"
+				@click="closeModal">
+				<div class="modal-dialog">
+					<div class="modal-content" @click.stop>
+						<div class="modal-header">
+							<h5 class="modal-title" id="successModalLabel">Successo</h5>
+							<button
+								type="button"
+								class="btn-close"
+								aria-label="Close"
+								@click="showSuccessModal = false"></button>
+						</div>
+						<div class="modal-body">
+							Il messaggio è stato inviato con successo!
+						</div>
+						<div class="modal-footer"></div>
+					</div>
+				</div>
+			</div>
+
 			<router-link to="/" class="btn btn-secondary mt-3"
-				>Torna alla lista</router-link
+				>Continua la ricerca</router-link
 			>
 		</div>
 	</div>
@@ -221,5 +250,18 @@ export default {
 
 .is-invalid {
 	border-color: red;
+}
+
+/* Modale */
+.modal.show {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100vh;
+}
+
+.modal-dialog {
+	max-width: 500px;
+	width: 100%;
 }
 </style>
