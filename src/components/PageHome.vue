@@ -133,15 +133,17 @@ export default {
         </div>
       </div>
        <!-- sezione che cicla i miei appartamenti -->
-      <div class="container">
-        <div class="row g-1">
-          <div v-for="realEstate in filteredRealEstates" :key="realEstate.id" class="col-4">
-            <div class="card mb-3 mt-3" style="width: 400px; min-height: 180px;">
-              <div class="row g-1">
-                <div class="col-lg-4">
-                    <img :src="'http://127.0.0.1:8000/storage/' + realEstate.portrait + '?v=' + new Date().getTime()" class="card-img"  alt="Immobile" />
+       <div class="container">
+        <div class="row">
+          <div v-for="realEstate in filteredRealEstates" :key="realEstate.id" class="col-12 col-sm-6 col-md-6 col-lg-4">
+            <div class="card mb-3 mt-3">
+              <div class="row">
+                <!-- Immagine: occupa 12 colonne su mobile, 6 su tablet, 8 su desktop -->
+                <div class="col-12">
+                  <img :src="'http://127.0.0.1:8000/storage/' + realEstate.portrait + '?v=' + new Date().getTime()" class="card-img" alt="Immobile" />
                 </div>
-                <div class="col-lg-6">
+                <!-- Dettagli: occupa 12 su mobile, 6 su tablet, 4 su desktop -->
+                <div class="col-12">
                   <div class="card-body">
                     <h5 class="card-title">{{ realEstate.title }}</h5>
                     <p class="card-text">{{ realEstate.address }}, {{ realEstate.city }}</p>
@@ -154,7 +156,8 @@ export default {
         </div>
       </div>
     </div>
-
+      
+  <!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
     <div class="container-fluid bg">
         <div class="row">
             <div class="col-12 text-center mt-5">
@@ -162,7 +165,7 @@ export default {
             </div>
     
             <!-- Roma -->
-            <div class="col-4">
+            <div class=" col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/roma.webp" alt="roma" class="img-fluid">
                     <h2 class="text-center">Roma</h2>
@@ -179,7 +182,7 @@ export default {
             </div>
     
             <!-- Firenze -->
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/firenze.jpeg" alt="firenze" class="img-fluid">
                     <h2 class="text-center">Firenze</h2>
@@ -196,7 +199,7 @@ export default {
             </div>
     
             <!-- Venezia -->
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/venezia.webp" alt="venezia" class="img-fluid">
                     <h2 class="text-center">Venezia</h2>
@@ -213,7 +216,7 @@ export default {
             </div>
     
             <!-- Milano -->
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/milano.jpg" alt="milano" class="img-fluid">
                     <h2 class="text-center">Milano</h2>
@@ -230,7 +233,7 @@ export default {
             </div>
     
             <!-- Napoli -->
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/napoli.jpg" alt="napoli" class="img-fluid">
                     <h2 class="text-center">Napoli</h2>
@@ -247,7 +250,7 @@ export default {
             </div>
     
             <!-- Costiera Amalfitana -->
-            <div class="col-4">
+            <div class="col-12 col-md-6 col-lg-4">
                 <div class="content-place mt-5">
                     <img src="../assets/amalfi.jpg" alt="costiera amalfitana" class="img-fluid">
                     <h2 class="text-center">Costiera Amalfitana</h2>
