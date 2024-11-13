@@ -1,7 +1,11 @@
 <script>
 import axios from "axios";
+import TomTomMap from "./TomTomMap.vue";
 
 export default {
+	components: {
+		TomTomMap,
+	},
 	data() {
 		return {
 			realEstate: null,
@@ -75,18 +79,30 @@ export default {
 <template>
 	<div class="container">
 		<div v-if="realEstate" class="detail-card">
-			<img
-				:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
-				class="detail-img"
-				alt="Immobile" />
-			<h2>{{ realEstate.title }}</h2>
-			<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
-			<p>€ {{ realEstate.price }}</p>
-			<p>{{ realEstate.description }}</p>
+			<div class="row mb-3">
+				<div class="col-6 custom-height">
+					<img
+						:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
+						class="detail-img rounded-1"
+						alt="Immobile" />
+				</div>
+				<div class="col-6">
+					<TomTomMap
+						apiKey="9Yq5kH65us12yazEXv9SX8bGsAYxX1fL"
+						:latitude="realEstate.latitude"
+						:longitude="realEstate.longitude"
+						:zoom="12" />
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-6">
 					<div class="property-details">
+						<h2>{{ realEstate.title }}</h2>
+						<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
+						<p>€ {{ realEstate.price }}</p>
+						<p>{{ realEstate.description }}</p>
+						<br />
 						<p><strong>Camere:</strong> {{ realEstate.rooms }}</p>
 						<p><strong>Bagni:</strong> {{ realEstate.bathrooms }}</p>
 						<p><strong>Letti:</strong> {{ realEstate.beds }}</p>
@@ -232,6 +248,10 @@ export default {
 	padding: 20px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
+}
+
+.custom-height {
+	height: 400px;
 }
 
 .detail-img {
