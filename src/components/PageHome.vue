@@ -137,7 +137,8 @@ export default {
 					class="form-control mt-5"
 					v-model="searchQuery.rooms"
 					placeholder="Numero Stanze"
-					aria-label="Numero Stanze" />
+					aria-label="Numero Stanze"
+					min="0" />
 			</div>
 		</div>
 
