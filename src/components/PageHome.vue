@@ -164,40 +164,38 @@ export default {
 					v-for="realEstate in filteredRealEstates"
 					:key="realEstate.id"
 					class="col-12 col-sm-6 col-md-6 col-lg-4">
-					<div class="card mb-3 mt-3">
-						<div class="row">
-							<!-- Immagine: occupa 12 colonne su mobile, 6 su tablet, 8 su desktop -->
-							<div class="col-12">
-								<img
-									:src="
-										'http://127.0.0.1:8000/storage/' +
-										realEstate.portrait +
-										'?v=' +
-										new Date().getTime()
-									"
-									class="card-img"
-									alt="Immobile" />
-							</div>
-							<!-- Dettagli: occupa 12 su mobile, 6 su tablet, 4 su desktop -->
-							<div class="col-12">
-								<div class="card-body">
-									<h5 class="card-title">{{ realEstate.title }}</h5>
-									<p class="card-text">
-										{{ realEstate.address }}, {{ realEstate.city }}
-									</p>
-									<p class="card-text">€ {{ realEstate.price }}</p>
-									<router-link
-										:to="{
-											name: 'realEstateDetail',
-											params: { id: realEstate.id },
-										}"
-										class="btn btn-primary"
-										>Scopri di più</router-link
-									>
+					<router-link
+						:to="{
+							name: 'realEstateDetail',
+							params: { id: realEstate.id },
+						}"
+						class="btn hover_card">
+						<div class="card mb-3 mt-3">
+							<div class="row">
+								<div class="col-12">
+									<img
+										:src="
+											'http://127.0.0.1:8000/storage/' +
+											realEstate.portrait +
+											'?v=' +
+											new Date().getTime()
+										"
+										class="card-img"
+										alt="Immobile" />
+								</div>
+
+								<div class="col-12">
+									<div class="card-body">
+										<h5 class="card-title">{{ realEstate.title }}</h5>
+										<p class="card-text">
+											{{ realEstate.address }}, {{ realEstate.city }}
+										</p>
+										<p class="card-text">€ {{ realEstate.price }}</p>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</router-link>
 				</div>
 			</div>
 		</div>
@@ -466,5 +464,14 @@ export default {
 	width: 100%;
 	object-fit: cover;
 	height: 200px;
+}
+
+.hover_card {
+	opacity: 1;
+	transition: all 0.3s ease-in-out;
+	&:hover {
+		transform: scale(1.025);
+		opacity: 1;
+	}
 }
 </style>
