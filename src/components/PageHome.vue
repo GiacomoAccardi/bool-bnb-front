@@ -137,7 +137,8 @@ export default {
 					class="form-control mt-5"
 					v-model="searchQuery.rooms"
 					placeholder="Numero Stanze"
-					aria-label="Numero Stanze" />
+					aria-label="Numero Stanze"
+					min="0" />
 			</div>
 		</div>
 
@@ -170,7 +171,8 @@ export default {
 							params: { id: realEstate.id },
 						}"
 						class="btn hover_card">
-						<div class="card mb-3 mt-3">
+						<div class="card mb-3 mt-3"
+              :class="{'border-yellow': realEstate.subscriptions.length > 0}"> <!-- Verifica se subscriptions contiene almeno un elemento -->
 							<div class="row">
 								<div class="col-12">
 									<img
@@ -473,5 +475,9 @@ export default {
 		transform: scale(1.025);
 		opacity: 1;
 	}
+}
+
+.border-yellow {
+  border: 2px solid #FFD700;
 }
 </style>
