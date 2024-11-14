@@ -87,6 +87,7 @@ export default {
 
 		// Metodo per gestire la selezione/deselezione del servizio
 		toggleService(serviceId) {
+			console.log("Before toggle", this.activeServices);
 			if (this.activeServices.includes(serviceId)) {
 				// Se il servizio è già attivo, rimuovilo
 				this.activeServices = this.activeServices.filter(
@@ -96,7 +97,7 @@ export default {
 				// Altrimenti, aggiungi il servizio attivo
 				this.activeServices.push(serviceId);
 			}
-
+			console.log("After toggle", this.activeServices);
 			// Applica i filtri dopo la selezione
 			this.applyFilters();
 		},
@@ -122,7 +123,7 @@ export default {
 
 <template>
 	<!-- sezione per la ricerca -->
-	<div class="container-sm">
+	<div class="container">
 		<div class="search-bar mb-5 mt-5">
 			<div class="input-group mt-5">
 				<span class="input-group-text mt-5"><i class="fas fa-search"></i></span>
@@ -150,29 +151,32 @@ export default {
 					class="service-icon d-flex justify-content-center align-items-center"
 					style="height: 40px; width: 35px"
 					@click="toggleService(service.id)"
-					:style="{
-						color: activeServices.includes(service.id) ? 'blue' : 'initial',
+					:class="{
+						'not-active': !activeServices.includes(service.id),
+						active: activeServices.includes(service.id),
 					}">
 					<!-- Mostra l'icona del servizio -->
-					<i :class="service.icon + ' fa-2x'"></i>
+					<i :class="service.icon + ' fa'"></i>
 				</div>
 			</div>
 		</div>
 		<!-- sezione che cicla i miei appartamenti -->
-		<div class="container">
+		<div class="">
 			<div class="row">
 				<div
 					v-for="realEstate in filteredRealEstates"
 					:key="realEstate.id"
-					class="col-12 col-sm-6 col-md-6 col-lg-4">
+					class="col-12 col-sm-6 col-md-4 col-lg-3">
 					<router-link
 						:to="{
 							name: 'realEstateDetail',
 							params: { id: realEstate.id },
 						}"
 						class="btn hover_card">
-						<div class="card mb-3 mt-3"
-              :class="{'border-yellow': realEstate.subscriptions.length > 0}"> <!-- Verifica se subscriptions contiene almeno un elemento -->
+						<div
+							class="card mb-3 mt-3"
+							:class="{ 'border-yellow': realEstate.subscriptions.length > 0 }">
+							<!-- Verifica se subscriptions contiene almeno un elemento -->
 							<div class="row">
 								<div class="col-12">
 									<img
@@ -384,7 +388,7 @@ export default {
 	</div>
 </template>
 <style lang="scss" scoped>
-.container-sm {
+.container {
 	margin-top: 380px;
 }
 .search-img {
@@ -403,6 +407,26 @@ export default {
 .bg {
 	background: rgb(219, 219, 219);
 	overflow: hidden;
+}
+
+.fa {
+	font-size: 1.35rem;
+	transition: all 0.3s ease-in-out;
+	&:hover {
+		font-size: 1.45rem;
+		color: blue;
+	}
+	&:active {
+		color: blue;
+		font-size: 1.45rem;
+	}
+}
+.not-active {
+	color: rgb(65, 65, 65);
+}
+
+.active {
+	color: blue;
 }
 
 .content-place {
@@ -475,9 +499,14 @@ export default {
 		transform: scale(1.025);
 		opacity: 1;
 	}
+	&:active {
+		transform: scale(0.975);
+		opacity: 1;
+		border: 0;
+	}
 }
 
 .border-yellow {
-  border: 2px solid #FFD700;
+	border: 2px solid #ffd700;
 }
 </style>
