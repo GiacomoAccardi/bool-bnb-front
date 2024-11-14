@@ -17,7 +17,8 @@
           </div>
         </div>
         <div class="centered-text">
-          Trova la casa ideale con bool bnb!
+          Benvenuto su Bool BNB
+         Scopri quanto è facile trovare la casa che fa per te
         </div>
       </div>
     </header>
@@ -40,10 +41,11 @@
     background-size: cover;
     background-position: center;
     position: absolute;
+    background-attachment: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 400px;
+    height: 700px;
     overflow: hidden;
   }
   

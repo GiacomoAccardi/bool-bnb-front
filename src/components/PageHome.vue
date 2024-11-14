@@ -123,7 +123,7 @@ export default {
 
 <template>
 	<!-- sezione per la ricerca -->
-	<div class="container">
+	<div class="container-fluid margin">
 		<div class="search-bar mb-5 mt-5">
 			<div class="input-group mt-5">
 				<span class="input-group-text mt-5"><i class="fas fa-search"></i></span>
@@ -206,7 +206,7 @@ export default {
 			</div>
 		</div>
 	</div>
-
+			
 	<!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
 	<div class="container-fluid bg">
 		<div class="row">
@@ -508,5 +508,18 @@ export default {
 
 .border-yellow {
 	border: 2px solid #ffd700;
+}
+
+.margin{
+	margin-top: 700px;
+}
+
+.bg-gray{
+	background-color: rgb(200, 199, 199);
+}
+
+.search-bar{
+	width: 900px;
+	margin: 0 auto;
 }
 </style>
