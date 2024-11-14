@@ -77,15 +77,62 @@ export default {
 </script>
 
 <template>
-	<div class="container">
+	<div class="container-fluid">
 		<div v-if="realEstate" class="detail-card">
 			<div class="row mb-3">
-				<div class="col-6 custom-height">
+				<div class="col-6 py-3 px-4 custom-height">
+					<h2>{{ realEstate.title }}</h2>
+					<h4 class="price fw-light">€ {{ realEstate.price }}</h4>
+					<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
+					<p>{{ realEstate.description }}</p>
+					<hr />
+					<div class="row">
+						<div class="col-6">
+							<div class="property-details">
+								<p><strong>Camere:</strong> {{ realEstate.rooms }}</p>
+								<p><strong>Bagni:</strong> {{ realEstate.bathrooms }}</p>
+								<p><strong>Letti:</strong> {{ realEstate.beds }}</p>
+								<p>
+									<strong>Metri Quadri:</strong>
+									{{ realEstate.square_meter }} m²
+								</p>
+								<p>
+									<strong>Tipo di Struttura:</strong>
+									{{ realEstate.structure_types }}
+								</p>
+								<p>
+									<strong>Disponibilità:</strong>
+									{{
+										realEstate.availability ? "Disponibile" : "Non Disponibile"
+									}}
+								</p>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="property-details">
+								<div class="services">
+									<p><strong>Servizi disponibili:</strong></p>
+									<ul class="list-unstyled">
+										<li
+											v-for="service in realEstate.services"
+											:key="service.id">
+											<i :class="service.icon"></i> {{ service.name }}
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
 					<img
 						:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
 						class="detail-img rounded-1"
 						alt="Immobile" />
 				</div>
+			</div>
+
+			<div class="row">
 				<div class="col-6">
 					<TomTomMap
 						apiKey="9Yq5kH65us12yazEXv9SX8bGsAYxX1fL"
@@ -93,42 +140,9 @@ export default {
 						:longitude="realEstate.longitude"
 						:zoom="12" />
 				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-6">
-					<div class="property-details">
-						<h2>{{ realEstate.title }}</h2>
-						<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
-						<p>€ {{ realEstate.price }}</p>
-						<p>{{ realEstate.description }}</p>
-						<br />
-						<p><strong>Camere:</strong> {{ realEstate.rooms }}</p>
-						<p><strong>Bagni:</strong> {{ realEstate.bathrooms }}</p>
-						<p><strong>Letti:</strong> {{ realEstate.beds }}</p>
-						<p>
-							<strong>Metri Quadri:</strong> {{ realEstate.square_meter }} m²
-						</p>
-						<p>
-							<strong>Tipo di Struttura:</strong>
-							{{ realEstate.structure_types }}
-						</p>
-						<p>
-							<strong>Disponibilità:</strong>
-							{{ realEstate.availability ? "Disponibile" : "Non Disponibile" }}
-						</p>
-					</div>
-					<div class="services">
-						<p><strong>Servizi disponibili:</strong></p>
-						<ul class="list-unstyled">
-							<li v-for="service in realEstate.services" :key="service.id">
-								<i :class="service.icon"></i> {{ service.name }}
-							</li>
-						</ul>
-					</div>
-				</div>
 
 				<div class="col-6">
+					<h2>Chiedi più informazioni!</h2>
 					<div class="contact-form">
 						<form @submit.prevent="submitForm">
 							<div class="form-group">
@@ -239,14 +253,13 @@ export default {
 </template>
 
 <style scoped>
-.container {
+.container-fluid {
 	margin-top: 450px;
 	margin-bottom: 75px;
 }
 
 .detail-card {
 	padding: 20px;
-	border: 1px solid #ccc;
 	border-radius: 10px;
 }
 
@@ -257,6 +270,7 @@ export default {
 .detail-img {
 	width: 100%;
 	height: 400px;
+	border-radius: 10px;
 	object-fit: cover;
 }
 
