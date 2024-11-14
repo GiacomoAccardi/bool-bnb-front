@@ -1,9 +1,10 @@
 <template>
     <header class="app-header">
-      <div class="container-fluid">
-        <div class="row">
+      <div class="container position-relative">
+        <div class="row sticky z-10">
           <div class="col-2">
-            <img class="logo" src="../assets/BOOL-BNB-DB.png" alt="Logo">
+            <!-- <img class="logo" src="../assets/BOOL-BNB-DB.png" alt="Logo"> -->
+            <h1 class="logo-config rainbow3">Bool-b&b</h1>
           </div>
           <div class="col-10">
             <div class="content">
@@ -36,8 +37,8 @@
     z-index: 10;
   }
   
-  .container-fluid {
-    background-image: url('../assets/landing-page.jpg');
+  .container {
+    background-image: url('../assets/bg_2.jpg');
     background-size: cover;
     background-position: center;
     position: absolute;
@@ -49,7 +50,7 @@
     overflow: hidden;
   }
   
-  .container-fluid::before {
+  .container::before {
     content: '';
     position: absolute;
     top: 0;
@@ -104,5 +105,19 @@
     border: 2px solid black;
     padding: 5px;
   }
+
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+
+  .rainbow3{
+    background: linear-gradient(114deg, rgba(2,0,36,1) 21%, rgba(1,0,255,1) 45%);
+    -webkit-background-clip: text;  
+    background-clip: text; 
+    color: transparent; 
+  }
+  
   </style>
   
