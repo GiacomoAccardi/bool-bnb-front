@@ -270,7 +270,7 @@ export default {
 
 <style scoped>
 .container-fluid {
-	margin-top: 450px;
+	margin-top: 50px;
 	margin-bottom: 75px;
 }
 

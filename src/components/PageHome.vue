@@ -206,7 +206,7 @@ export default {
 			</div>
 		</div>
 	</div>
-			
+
 	<!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
 	<div class="container-fluid bg">
 		<div class="row">
@@ -388,8 +388,8 @@ export default {
 	</div>
 </template>
 <style lang="scss" scoped>
-.container {
-	margin-top: 380px;
+.container-fluid {
+	margin-top: 50px;
 }
 .search-img {
 	width: 150px;
@@ -510,15 +510,11 @@ export default {
 	border: 2px solid #ffd700;
 }
 
-.margin{
-	margin-top: 700px;
-}
-
-.bg-gray{
+.bg-gray {
 	background-color: rgb(200, 199, 199);
 }
 
-.search-bar{
+.search-bar {
 	width: 900px;
 	margin: 0 auto;
 }

@@ -1,10 +1,11 @@
 <template>
 	<header class="app-header">
+		<div class="container-fluid"></div>
 		<div class="container position-relative">
 			<AppNavbar />
 			<div class="centered-text">
-				Benvenuto su Bool BNB Scopri quanto è facile trovare la casa che fa per
-				te
+				Benvenuto su Bool BNB
+				<br />Scopri quanto è facile trovare la casa che fa per te
 			</div>
 		</div>
 	</header>
@@ -26,10 +27,12 @@ export default {
 	z-index: 10;
 }
 
-.container {
+.container-fluid {
 	background-image: url("../assets/bg_2.jpg");
-	background-size: cover;
-	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+
+	background-position: top;
 	position: absolute;
 	background-attachment: fixed;
 	top: 0;
@@ -38,16 +41,9 @@ export default {
 	height: 700px;
 	overflow: hidden;
 }
-
-.container::before {
-	content: "";
-	position: absolute;
-	top: 0;
-	left: 0;
+.container {
 	width: 100%;
-	height: 100%;
-	background: rgba(255, 255, 255, 0.4);
-	z-index: 1;
+	height: 650px;
 }
 
 .content {
