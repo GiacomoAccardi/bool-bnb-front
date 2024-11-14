@@ -2,37 +2,26 @@
 import tt from "@tomtom-international/web-sdk-maps";
 
 export default {
-	name: "TomTomMap",
 	props: {
 		apiKey: {
 			type: String,
-			required: true,
 		},
 		latitude: {
 			type: Number,
-			required: true,
 		},
 		longitude: {
 			type: Number,
-			required: true,
 		},
 		zoom: {
 			type: Number,
-			default: 12,
 		},
-	},
-	data() {
-		return {
-			map: null,
-			marker: null,
-		};
 	},
 	mounted() {
 		this.initMap();
 	},
 	methods: {
 		initMap() {
-			// Inizializza la mappa
+			// Crea la mappa
 			this.map = tt.map({
 				key: this.apiKey,
 				container: this.$refs.map,
@@ -40,39 +29,21 @@ export default {
 				zoom: this.zoom,
 			});
 
-			// Aggiungi il marker dopo che la mappa è completamente caricata
-			this.map.on("load", () => {
-				this.addMarker();
-			});
+			// Aggiungi un marker alla mappa
+			this.addMarker(this.latitude, this.longitude);
 		},
-		addMarker() {
-			// Se esiste già un marker, rimuovilo per evitare duplicati
-			if (this.marker) {
-				this.marker.remove();
-			}
 
-			// Aggiungi un nuovo marker alla mappa
-			this.marker = new tt.Marker()
-				.setLngLat([this.longitude, this.latitude])
-				.addTo(this.map);
-
-			// Centra la mappa sulle coordinate del marker
-			this.map.setCenter([this.longitude, this.latitude]);
-		},
-	},
-	watch: {
-		// Aggiorna il marker se le coordinate cambiano
-		latitude(newVal, oldVal) {
-			if (newVal !== oldVal) this.updateMarker();
-		},
-		longitude(newVal, oldVal) {
-			if (newVal !== oldVal) this.updateMarker();
+		addMarker(latitude, longitude) {
+			// Crea un marker con le coordinate
+			const marker = new tt.Marker()
+				.setLngLat([longitude, latitude]) // Imposta le coordinate del marker
+				.addTo(this.map); // Aggiungi il marker alla mappa
 		},
 	},
 	beforeDestroy() {
-		// Pulisci la mappa e il marker al distruggere il componente
-		if (this.map) this.map.remove();
-		if (this.marker) this.marker.remove();
+		if (this.map) {
+			this.map.remove(); // Pulisce la mappa quando il componente viene distrutto
+		}
 	},
 };
 </script>
@@ -83,11 +54,10 @@ export default {
 	</div>
 </template>
 
-<style>
+<style scoped>
 .map-container {
 	width: 100%;
 	height: 100%;
-	position: relative;
 }
 
 .map {
