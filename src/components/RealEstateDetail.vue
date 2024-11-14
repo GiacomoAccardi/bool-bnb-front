@@ -16,9 +16,10 @@ export default {
 				phone: "",
 				message: "",
 				real_estate_id: this.$route.params.id,
+				user_ip: "", // Aggiungi il campo per l'IP
 			},
 			errors: {},
-			showSuccessModal: false, // Variabile per controllare la visibilità della modale
+			showSuccessModal: false,
 		};
 	},
 	async created() {
@@ -28,11 +29,25 @@ export default {
 				`http://127.0.0.1:8000/api/real-estates/${id}`
 			);
 			this.realEstate = response.data;
+
+			// Ottieni l'IP dell'utente e aggiorna il formData
+			await this.getUserIP();
 		} catch (error) {
 			console.error("Errore nel caricamento dell'immobile:", error);
 		}
 	},
 	methods: {
+		async getUserIP() {
+			try {
+				// Fai una richiesta per ottenere l'IP dell'utente
+				const response = await axios.get("https://api.ipify.org?format=json");
+				// Aggiorna il campo `user_ip` nel formData
+				this.formData.user_ip = response.data.ip;
+			} catch (error) {
+				console.error("Errore nel recuperare l'IP:", error);
+				alert("Non è stato possibile ottenere l'indirizzo IP.");
+			}
+		},
 		async submitForm() {
 			// Resetta gli errori prima di inviare
 			this.errors = {};
@@ -57,6 +72,7 @@ export default {
 					phone: "",
 					message: "",
 					real_estate_id: this.$route.params.id,
+					user_ip: "", // Reset dell'IP
 				};
 			} catch (error) {
 				if (error.response && error.response.data.errors) {
