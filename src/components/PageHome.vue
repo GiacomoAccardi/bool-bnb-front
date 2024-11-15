@@ -3,125 +3,164 @@ import axios from "axios";
 import BestLocations from "./BestLocations.vue";
 
 export default {
-	data() {
-		return {
-			searchQuery: {
-				query: "", // Testo della query di ricerca (nome immobile)
-				city: "", // Città
-				rooms: "", // Numero di stanze
-			},
-			realEstates: [], // Lista completa di immobili
-			filteredRealEstates: [], // Lista filtrata che verrà mostrata
-			services: [], // Lista completa di servizi
-			activeServices: [], // Lista dei servizi attivi (servizi selezionati)
-		};
-	},
-	components: {
-		BestLocations,
-	},
-	methods: {
-		// Funzione per eseguire la ricerca (GET)
-		async onSearch() {
-			try {
-				// Prepara i parametri di ricerca
-				const params = {
-					city: this.searchQuery.city,
-					rooms: this.searchQuery.rooms,
-				};
+  data() {
+    return {
+      searchQuery: {
+        query: "",    // Testo della query di ricerca (nome immobile)
+        city: "",     // Città
+        rooms: "",    // Numero di stanze
+        radius: 0,    // Raggio di ricerca iniziale (km)
+      },
+      realEstates: [],           // Lista completa di immobili
+      filteredRealEstates: [],   // Lista filtrata che verrà mostrata
+      services: [],              // Lista completa di servizi
+      activeServices: [],        // Lista dei servizi attivi (servizi selezionati)
+    };
+  },
+  components: {
+    BestLocations,
+  },
+  methods: {
+    // Funzione per eseguire la ricerca (GET)
+    async onSearch() {
+      try {
+        // Prepara i parametri di ricerca
+        const params = {
+          city: this.searchQuery.city,
+          rooms: this.searchQuery.rooms,
+          radius: this.searchQuery.radius,  // Aggiungi il raggio ai parametri di ricerca
+        };
 
-				// Fai una richiesta GET al back-end con i parametri di ricerca e i servizi
-				const response = await axios.get(
-					"http://127.0.0.1:8000/api/real-estates",
-					{ params }
-				);
-				const service = await axios.get("http://127.0.0.1:8000/api/services");
+        // Fai una richiesta GET al back-end con i parametri di ricerca
+        const response = await axios.get("http://127.0.0.1:8000/api/real-estates", { params });
+        const service = await axios.get("http://127.0.0.1:8000/api/services");
 
-				// Salva i risultati nella variabile 'realEstates'
-				this.realEstates = response.data;
-				this.services = service.data.data;
+        // Salva i risultati nella variabile 'realEstates'
+        this.realEstates = response.data;
+        this.services = service.data.data;
 
-				// Dopo aver ottenuto i dati, applica i filtri
-				this.applyFilters();
-			} catch (error) {
-				console.error("Errore durante la ricerca:", error);
-			}
-		},
+        // Dopo aver ottenuto i dati, applica i filtri
+        this.applyFilters();
+      } catch (error) {
+        console.error("Errore durante la ricerca:", error);
+      }
+    },
 
-		// Funzione per applicare i filtri agli immobili
-		applyFilters() {
-			let filtered = this.realEstates;
+    // Funzione per applicare i filtri agli immobili
+    applyFilters() {
+      let filtered = this.realEstates;
 
-			// Filtro per la ricerca in base alla query (ricerca per nome o città)
-			if (this.searchQuery.query) {
-				const queryLower = this.searchQuery.query.toLowerCase();
-				filtered = filtered.filter(
-					(estate) =>
-						estate.title.toLowerCase().includes(queryLower) ||
-						estate.city.toLowerCase().includes(queryLower)
-				);
-			}
+      // Filtro per la ricerca in base alla query (ricerca per nome o città)
+      if (this.searchQuery.query) {
+        const queryLower = this.searchQuery.query.toLowerCase();
+        filtered = filtered.filter(
+          (estate) =>
+            estate.title.toLowerCase().includes(queryLower) ||
+            estate.city.toLowerCase().includes(queryLower)
+        );
+      }
 
-			// Filtro per i servizi attivi
-			if (this.activeServices.length > 0) {
-				filtered = filtered.filter((estate) =>
-					this.activeServices.every((serviceId) =>
-						estate.services.some((service) => service.id === serviceId)
-					)
-				);
-			}
+      // Filtro per i servizi attivi
+      if (this.activeServices.length > 0) {
+        filtered = filtered.filter((estate) =>
+          this.activeServices.every((serviceId) =>
+            estate.services.some((service) => service.id === serviceId)
+          )
+        );
+      }
 
-			// Filtro per la città
-			if (this.searchQuery.city) {
-				const cityLower = this.searchQuery.city.toLowerCase();
-				filtered = filtered.filter((estate) =>
-					estate.city.toLowerCase().includes(cityLower)
-				);
-			}
+      // Filtro per la città
+      if (this.searchQuery.city) {
+        const cityLower = this.searchQuery.city.toLowerCase();
+        filtered = filtered.filter((estate) =>
+          estate.city.toLowerCase().includes(cityLower)
+        );
+      }
 
-			// Filtro per il numero di stanze
-			if (this.searchQuery.rooms) {
-				filtered = filtered.filter(
-					(estate) => estate.rooms == this.searchQuery.rooms
-				);
-			}
+      // Filtro per il numero di stanze
+      if (this.searchQuery.rooms) {
+        filtered = filtered.filter(
+          (estate) => estate.rooms == this.searchQuery.rooms
+        );
+      }
 
-			// Salvo il risultato filtrato
-			this.filteredRealEstates = filtered;
-		},
+      // Filtro per il raggio di ricerca
+      if (this.searchQuery.radius > 0) {
+        filtered = filtered.filter((estate) => {
+          const distance = this.calculateDistance(estate);
+          return distance <= this.searchQuery.radius;
+        });
+      }
 
-		// Metodo per gestire la selezione/deselezione del servizio
-		toggleService(serviceId) {
-			console.log("Before toggle", this.activeServices);
-			if (this.activeServices.includes(serviceId)) {
-				// Se il servizio è già attivo, rimuovilo
-				this.activeServices = this.activeServices.filter(
-					(id) => id !== serviceId
-				);
-			} else {
-				// Altrimenti, aggiungi il servizio attivo
-				this.activeServices.push(serviceId);
-			}
-			console.log("After toggle", this.activeServices);
-			// Applica i filtri dopo la selezione
-			this.applyFilters();
-		},
-	},
-	watch: {
-		// Creo un Watch per il cambiamento della query di ricerca
-		"searchQuery.query": function () {
-			this.applyFilters();
-		},
-		"searchQuery.city": function () {
-			this.applyFilters();
-		},
-		"searchQuery.rooms": function () {
-			this.applyFilters();
-		},
-	},
-	mounted() {
-		// Carica inizialmente tutti gli immobili
-		this.onSearch();
-	},
+      // Salvo il risultato filtrato
+      this.filteredRealEstates = filtered;
+    },
+
+    // Metodo per calcolare la distanza (deve essere implementato in base ai dati disponibili)
+    calculateDistance(estate) {
+      // Supponiamo che gli immobili abbiano latitudine e longitudine
+      // Aggiungere una logica per calcolare la distanza in km tra l'utente e l'immobile
+      const userLat = 45.0703; // Esempio di latitudine dell'utente
+      const userLon = 7.6869; // Esempio di longitudine dell'utente
+
+      const estateLat = estate.latitude;
+      const estateLon = estate.longitude;
+
+      // Formula per calcolare la distanza tra due punti sulla Terra (Haversine)
+      const R = 6371; // Raggio della Terra in km
+      const dLat = this.deg2rad(estateLat - userLat);
+      const dLon = this.deg2rad(estateLon - userLon);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(userLat)) *
+          Math.cos(this.deg2rad(estateLat)) *
+          Math.sin(dLon / 2) *
+          Math.sin(dLon / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c; // Distanza in km
+
+      return distance;
+    },
+
+    // Metodo di supporto per la conversione da gradi a radianti
+    deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    },
+
+    // Metodo per gestire la selezione/deselezione del servizio
+    toggleService(serviceId) {
+      if (this.activeServices.includes(serviceId)) {
+        // Se il servizio è già attivo, rimuovilo
+        this.activeServices = this.activeServices.filter(
+          (id) => id !== serviceId
+        );
+      } else {
+        // Altrimenti, aggiungi il servizio attivo
+        this.activeServices.push(serviceId);
+      }
+      // Applica i filtri dopo la selezione
+      this.applyFilters();
+    },
+  },
+  watch: {
+    // Creo un Watch per il cambiamento della query di ricerca
+    "searchQuery.query": function () {
+      this.applyFilters();
+    },
+    "searchQuery.city": function () {
+      this.applyFilters();
+    },
+    "searchQuery.rooms": function () {
+      this.applyFilters();
+    },
+    "searchQuery.radius": function () {
+      this.applyFilters(); // Applicare i filtri quando cambia il raggio
+    },
+  },
+  mounted() {
+    // Carica inizialmente tutti gli immobili
+    this.onSearch();
+  },
 };
 </script>
 
@@ -144,7 +183,18 @@ export default {
 					placeholder="Numero Stanze"
 					aria-label="Numero Stanze"
 					min="0" />
-			</div>
+					<div class="mt-4">
+						<label for="radius" class="form-label ms-5">Raggio di ricerca (km): {{ searchQuery.radius }}</label>
+						<input
+						  type="range"
+						  class="form-range"
+						  id="radius"
+						  v-model="searchQuery.radius"
+						  min="0"
+						  max="20"
+						  step="1"
+						/>
+					  </div>			</div>
 		</div>
 
 		<!-- sezione filtro avanzato per i servizi -->
