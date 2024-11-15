@@ -1,7 +1,11 @@
 <script>
 import axios from "axios";
+import TomTomMap from "./TomTomMap.vue";
 
 export default {
+	components: {
+		TomTomMap,
+	},
 	data() {
 		return {
 			realEstate: null,
@@ -12,9 +16,10 @@ export default {
 				phone: "",
 				message: "",
 				real_estate_id: this.$route.params.id,
+				user_ip: "", // Aggiungi il campo per l'IP
 			},
 			errors: {},
-			showSuccessModal: false, // Variabile per controllare la visibilità della modale
+			showSuccessModal: false,
 		};
 	},
 	async created() {
@@ -24,11 +29,25 @@ export default {
 				`http://127.0.0.1:8000/api/real-estates/${id}`
 			);
 			this.realEstate = response.data;
+
+			// Ottieni l'IP dell'utente e aggiorna il formData
+			await this.getUserIP();
 		} catch (error) {
 			console.error("Errore nel caricamento dell'immobile:", error);
 		}
 	},
 	methods: {
+		async getUserIP() {
+			try {
+				// Fai una richiesta per ottenere l'IP dell'utente
+				const response = await axios.get("https://api.ipify.org?format=json");
+				// Aggiorna il campo `user_ip` nel formData
+				this.formData.user_ip = response.data.ip;
+			} catch (error) {
+				console.error("Errore nel recuperare l'IP:", error);
+				alert("Non è stato possibile ottenere l'indirizzo IP.");
+			}
+		},
 		async submitForm() {
 			// Resetta gli errori prima di inviare
 			this.errors = {};
@@ -53,6 +72,7 @@ export default {
 					phone: "",
 					message: "",
 					real_estate_id: this.$route.params.id,
+					user_ip: "", // Reset dell'IP
 				};
 			} catch (error) {
 				if (error.response && error.response.data.errors) {
@@ -73,46 +93,72 @@ export default {
 </script>
 
 <template>
-	<div class="container">
+	<div class="container-fluid">
 		<div v-if="realEstate" class="detail-card">
-			<img
-				:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
-				class="detail-img"
-				alt="Immobile" />
-			<h2>{{ realEstate.title }}</h2>
-			<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
-			<p>€ {{ realEstate.price }}</p>
-			<p>{{ realEstate.description }}</p>
+			<div class="row mb-3">
+				<div class="col-6 py-3 px-4 custom-height">
+					<h2>{{ realEstate.title }}</h2>
+					<h4 class="price fw-light">€ {{ realEstate.price }}</h4>
+					<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
+					<p>{{ realEstate.description }}</p>
+					<hr />
+					<div class="row">
+						<div class="col-6">
+							<div class="property-details">
+								<p><strong>Camere:</strong> {{ realEstate.rooms }}</p>
+								<p><strong>Bagni:</strong> {{ realEstate.bathrooms }}</p>
+								<p><strong>Letti:</strong> {{ realEstate.beds }}</p>
+								<p>
+									<strong>Metri Quadri:</strong>
+									{{ realEstate.square_meter }} m²
+								</p>
+								<p>
+									<strong>Tipo di Struttura:</strong>
+									{{ realEstate.structure_types }}
+								</p>
+								<p>
+									<strong>Disponibilità:</strong>
+									{{
+										realEstate.availability ? "Disponibile" : "Non Disponibile"
+									}}
+								</p>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="property-details">
+								<div class="services">
+									<p><strong>Servizi disponibili:</strong></p>
+									<ul class="list-unstyled">
+										<li
+											v-for="service in realEstate.services"
+											:key="service.id">
+											<i :class="service.icon"></i> {{ service.name }}
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-6">
+					<img
+						:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
+						class="detail-img rounded-1"
+						alt="Immobile" />
+				</div>
+			</div>
 
 			<div class="row">
 				<div class="col-6">
-					<div class="property-details">
-						<p><strong>Camere:</strong> {{ realEstate.rooms }}</p>
-						<p><strong>Bagni:</strong> {{ realEstate.bathrooms }}</p>
-						<p><strong>Letti:</strong> {{ realEstate.beds }}</p>
-						<p>
-							<strong>Metri Quadri:</strong> {{ realEstate.square_meter }} m²
-						</p>
-						<p>
-							<strong>Tipo di Struttura:</strong>
-							{{ realEstate.structure_types }}
-						</p>
-						<p>
-							<strong>Disponibilità:</strong>
-							{{ realEstate.availability ? "Disponibile" : "Non Disponibile" }}
-						</p>
-					</div>
-					<div class="services">
-						<p><strong>Servizi disponibili:</strong></p>
-						<ul class="list-unstyled">
-							<li v-for="service in realEstate.services" :key="service.id">
-								<i :class="service.icon"></i> {{ service.name }}
-							</li>
-						</ul>
-					</div>
+					<TomTomMap
+						apiKey="9Yq5kH65us12yazEXv9SX8bGsAYxX1fL"
+						:latitude="realEstate.latitude"
+						:longitude="realEstate.longitude"
+						:zoom="12" />
 				</div>
 
 				<div class="col-6">
+					<h2>Chiedi più informazioni!</h2>
 					<div class="contact-form">
 						<form @submit.prevent="submitForm">
 							<div class="form-group">
@@ -223,20 +269,24 @@ export default {
 </template>
 
 <style scoped>
-.container {
-	margin-top: 450px;
+.container-fluid {
+	margin-top: 250px;
 	margin-bottom: 75px;
 }
 
 .detail-card {
 	padding: 20px;
-	border: 1px solid #ccc;
 	border-radius: 10px;
+}
+
+.custom-height {
+	height: 400px;
 }
 
 .detail-img {
 	width: 100%;
-	max-height: 400px;
+	height: 400px;
+	border-radius: 10px;
 	object-fit: cover;
 }
 
