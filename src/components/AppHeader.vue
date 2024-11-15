@@ -3,9 +3,9 @@
 		<div class="container-fluid"></div>
 		<div class="container position-relative">
 			<AppNavbar />
-			<div class="centered-text">
-				Benvenuto su Bool BNB
-				<br />Scopri quanto è facile trovare la casa che fa per te
+			<div class="centered-text" v-if="isHomePage">
+				Benvenuto su Bool BNB<br />
+				Scopri quanto è facile trovare la casa che fa per te
 			</div>
 		</div>
 	</header>
@@ -16,6 +16,12 @@ import AppNavbar from "./AppNavbar.vue";
 export default {
 	components: {
 		AppNavbar,
+	},
+	computed: {
+		// Controlla se l'utente si trova nella home
+		isHomePage() {
+			return this.$route.name === "home"; // Cambia 'home' con il nome corretto della tua route
+		},
 	},
 };
 </script>
@@ -31,14 +37,13 @@ export default {
 	background-image: url("../assets/bg_2.jpg");
 	background-size: contain;
 	background-repeat: no-repeat;
-
 	background-position: top;
 	position: absolute;
 	background-attachment: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 700px;
+	height: 850px;
 	overflow: hidden;
 }
 .container {
@@ -67,7 +72,6 @@ ul.list-unstyled li a {
 	font-size: 2rem;
 	text-align: center;
 	font-weight: bold;
-	text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	z-index: 2;
 }
 
@@ -82,7 +86,6 @@ ul.list-unstyled li a:active {
 	width: 100%;
 	background-color: #fff;
 	padding: 10px 20px;
-	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 	z-index: 1000;
 }
 

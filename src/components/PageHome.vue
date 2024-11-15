@@ -166,7 +166,7 @@ export default {
 				<div
 					v-for="realEstate in filteredRealEstates"
 					:key="realEstate.id"
-					class="col-12 col-sm-6 col-md-4 col-lg-3">
+					class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
 					<router-link
 						:to="{
 							name: 'realEstateDetail',
@@ -175,10 +175,15 @@ export default {
 						class="btn hover_card">
 						<div
 							class="card mb-3 mt-3"
-							:class="{ 'border-yellow': realEstate.subscriptions.length > 0 }">
+							:class="{ 'border-wow': realEstate.subscriptions.length > 0 }">
 							<!-- Verifica se subscriptions contiene almeno un elemento -->
 							<div class="row">
 								<div class="col-12">
+									<div
+										class="adv-badge"
+										v-if="realEstate.subscriptions.length > 0">
+										<p class="m-0">Sponsorizzato</p>
+									</div>
 									<img
 										:src="
 											'http://127.0.0.1:8000/storage/' +
@@ -186,7 +191,7 @@ export default {
 											'?v=' +
 											new Date().getTime()
 										"
-										class="card-img"
+										class="card-img-cu"
 										alt="Immobile" />
 								</div>
 
@@ -208,7 +213,7 @@ export default {
 	</div>
 
 	<!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
-	<div class="container-fluid bg">
+	<div class="container-fluid">
 		<div class="row">
 			<div class="col-12 text-center mt-5">
 				<h1>Le migliori destinazioni per il tuo soggiorno al Bool BNB</h1>
@@ -389,7 +394,7 @@ export default {
 </template>
 <style lang="scss" scoped>
 .container-fluid {
-	margin-top: 50px;
+	margin-top: 150px;
 }
 .search-img {
 	width: 150px;
@@ -450,7 +455,6 @@ export default {
 	border-radius: inherit;
 	scale: 0;
 	z-index: -1;
-
 	transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -486,10 +490,28 @@ export default {
 	filter: brightness(50%);
 }
 
-.card-img {
+.card {
+	position: relative;
+
+	.adv-badge {
+		position: absolute;
+		top: 10px;
+		right: 10px;
+		background: linear-gradient(
+			114deg,
+			rgb(38, 38, 159) 4%,
+			rgba(128, 234, 255, 1) 92%
+		);
+		color: white;
+		padding: 10px;
+		border-radius: 4px; // Opzionale, per un aspetto più elegante
+	}
+}
+
+.card-img-cu {
 	width: 100%;
-	object-fit: cover;
-	height: 200px;
+	object-fit: fill;
+	height: 300px;
 }
 
 .hover_card {
@@ -517,5 +539,16 @@ export default {
 .search-bar {
 	width: 900px;
 	margin: 0 auto;
+}
+
+.border-wow {
+	border: 4px solid transparent;
+	border-image: linear-gradient(
+			114deg,
+			rgb(38, 38, 159) 4%,
+			rgba(128, 234, 255, 1) 92%
+		)
+		1;
+	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.415);
 }
 </style>
