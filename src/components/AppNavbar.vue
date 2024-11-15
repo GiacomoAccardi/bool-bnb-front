@@ -4,12 +4,13 @@ export default {};
 <template>
 	<div class="containers sticky-top">
 		<div class="row navbarcustom">
-			<div class="col-2">
+			<div class="col-3">
 				<a href="/" class="text-decoration-none">
 					<h1 class="logo-config rainbow3">Bool-b&b</h1>
+					<h1 class="logo-config rainbow4">BB</h1>
 				</a>
 			</div>
-			<div class="col-10">
+			<div class="col-9">
 				<div class="content float-end">
 					<ul class="list-unstyled mt-3 d-flex justify-content-end">
 						<li class="mx-3 border-wow">
@@ -59,5 +60,21 @@ export default {};
 	-webkit-background-clip: text;
 	background-clip: text;
 	color: transparent;
+	@media screen and (max-width: 768px) {
+		display: none;
+	}
+}
+.rainbow4 {
+	background: linear-gradient(
+		114deg,
+		rgba(2, 0, 36, 1) 21%,
+		rgba(1, 0, 255, 1) 45%
+	);
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	@media screen and (min-width: 768px) {
+		display: none;
+	}
 }
 </style>

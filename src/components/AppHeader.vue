@@ -43,12 +43,31 @@ export default {
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 850px;
+	height: 750px;
 	overflow: hidden;
+	@media (max-width: 992px) {
+		height: 500px;
+	}
+	@media (max-width: 768px) {
+		height: 400px;
+	}
+	@media screen and (max-width: 576px) {
+		height: 300px;
+	}
 }
 .container {
 	width: 100%;
 	height: 650px;
+
+	@media (max-width: 992px) {
+		height: 400px;
+	}
+	@media (max-width: 768px) {
+		height: 300px;
+	}
+	@media screen and (max-width: 576px) {
+		height: 200px;
+	}
 }
 
 .content {
@@ -73,6 +92,10 @@ ul.list-unstyled li a {
 	text-align: center;
 	font-weight: bold;
 	z-index: 2;
+
+	@media screen and (max-width: 768px) {
+		display: none;
+	}
 }
 
 ul.list-unstyled li a:active {
@@ -101,6 +124,7 @@ ul.list-unstyled li a:active {
 }
 
 .rainbow3 {
+	display: none;
 	background: linear-gradient(
 		114deg,
 		rgba(2, 0, 36, 1) 21%,

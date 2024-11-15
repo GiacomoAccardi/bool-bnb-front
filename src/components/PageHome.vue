@@ -1,5 +1,6 @@
 <script>
 import axios from "axios";
+import BestLocations from "./BestLocations.vue";
 
 export default {
 	data() {
@@ -14,6 +15,9 @@ export default {
 			services: [], // Lista completa di servizi
 			activeServices: [], // Lista dei servizi attivi (servizi selezionati)
 		};
+	},
+	components: {
+		BestLocations,
 	},
 	methods: {
 		// Funzione per eseguire la ricerca (GET)
@@ -123,9 +127,9 @@ export default {
 
 <template>
 	<!-- sezione per la ricerca -->
-	<div class="container-fluid margin">
-		<div class="search-bar mb-5 mt-5">
-			<div class="input-group mt-5">
+	<div class="container-fluid">
+		<div class="search-bar mb-5">
+			<div class="input-group">
 				<span class="input-group-text mt-5"><i class="fas fa-search"></i></span>
 				<input
 					type="text"
@@ -144,19 +148,21 @@ export default {
 		</div>
 
 		<!-- sezione filtro avanzato per i servizi -->
-		<div class="text-center mb-4">
-			<div v-for="service in services" :key="service.id" class="btn">
-				<!-- Contenitore per ogni icona -->
-				<div
-					class="service-icon d-flex justify-content-center align-items-center"
-					style="height: 40px; width: 35px"
-					@click="toggleService(service.id)"
-					:class="{
-						'not-active': !activeServices.includes(service.id),
-						active: activeServices.includes(service.id),
-					}">
-					<!-- Mostra l'icona del servizio -->
-					<i :class="service.icon + ' fa'"></i>
+		<div class="text-center w-100 d-flex justify-content-center">
+			<div class="d-flex justify-content-start overflow-scroll">
+				<div v-for="service in services" :key="service.id" class="btn">
+					<!-- Contenitore per ogni icona -->
+					<div
+						class="service-icon d-flex justify-content-center align-items-center"
+						style="height: 40px; width: 35px"
+						@click="toggleService(service.id)"
+						:class="{
+							'not-active': !activeServices.includes(service.id),
+							active: activeServices.includes(service.id),
+						}">
+						<!-- Mostra l'icona del servizio -->
+						<i :class="service.icon + ' fa'"></i>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -208,193 +214,41 @@ export default {
 						</div>
 					</router-link>
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-12 text-center mt-5">
-				<h1>Le migliori destinazioni per il tuo soggiorno al Bool BNB</h1>
-			</div>
-
-			<!-- Roma -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img src="../assets/roma.webp" alt="roma" class="img-fluid" />
-					<h2 class="text-center">Roma</h2>
-					<p class="p-2">
-						Scopri la capitale d'Italia con il nostro accogliente B&B situato
-						nel cuore di Roma. A pochi passi dai monumenti storici, offriamo
-						camere eleganti e una colazione tipica romana per un soggiorno
-						indimenticabile.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-
-			<!-- Firenze -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img src="../assets/firenze.jpeg" alt="firenze" class="img-fluid" />
-					<h2 class="text-center">Firenze</h2>
-					<p class="p-2">
-						Vivi l'arte e la cultura rinascimentale di Firenze. Il nostro B&B ti
-						accoglierà in un ambiente raffinato, a pochi passi dalle gallerie e
-						musei più importanti, con una colazione preparata con ingredienti
-						freschi e locali.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-
-			<!-- Venezia -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img src="../assets/venezia.webp" alt="venezia" class="img-fluid" />
-					<h2 class="text-center">Venezia</h2>
-					<p class="p-2">
-						Scopri il fascino della città dei canali. Il nostro B&B ti offrirà
-						un'esperienza unica, con camere accoglienti e una vista mozzafiato
-						sulla città più romantica del mondo, ideale per esplorare la laguna
-						e i suoi dintorni.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-
-			<!-- Milano -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img src="../assets/milano.jpg" alt="milano" class="img-fluid" />
-					<h2 class="text-center">Milano</h2>
-					<p class="p-2">
-						Esplora Milano, la capitale della moda e del design. Il nostro B&B
-						ti offre camere moderne e confortevoli, situato a pochi minuti dalle
-						principali attrazioni culturali e dalle vie dello shopping.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-
-			<!-- Napoli -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img src="../assets/napoli.jpg" alt="napoli" class="img-fluid" />
-					<h2 class="text-center">Napoli</h2>
-					<p class="p-2">
-						Vivi il calore e il gusto di Napoli, la città della pizza e delle
-						tradizioni. Il nostro B&B ti accoglierà con il calore tipico
-						napoletano, camere confortevoli e colazione con i sapori autentici
-						della Campania.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-
-			<!-- Costiera Amalfitana -->
-			<div class="col-12 col-md-6 col-lg-4">
-				<div class="content-place mt-5">
-					<img
-						src="../assets/amalfi.jpg"
-						alt="costiera amalfitana"
-						class="img-fluid" />
-					<h2 class="text-center">Costiera Amalfitana</h2>
-					<p class="p-2">
-						Scopri la magia della Costiera Amalfitana, con i suoi panorami
-						mozzafiato e i pittoreschi villaggi a picco sul mare. Il nostro B&B
-						ti offre una vista spettacolare, camere raffinate e una colazione
-						all'insegna dei sapori mediterranei.
-					</p>
-					<div class="p-2">
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
-					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="container">
-		<div class="row">
-			<div class="col-12">
-				<h1 class="text-center mt-5">
-					Resta aggiornato per scoprire le nostre offerte
-				</h1>
-			</div>
-		</div>
-		<div class="row mt-5 mb-5 g-0">
-			<div class="col-9 position-relative">
-				<img
-					class="offerte dark-image img-fluid"
-					src="../assets/offerte.jpg"
-					alt="Firenze" />
-				<div class="offer-text position-absolute top-0 start-0 m-3">
-					<h4 class="text-white font-weight-bold">
-						Scopri le migliori offerte
-					</h4>
-				</div>
-				<div class="position-absolute bottom-0 end-0 mb-5 me-2">
-					<p class="text-white font-weight-bold">
-						utilizza il codice promozionale!
-					</p>
-				</div>
-				<div class="position-absolute bottom-0 end-0 m-3">
-					<a href="#" class="btn btn-primary rounded-4">winter 2024</a>
-				</div>
-			</div>
-			<div
-				class="col-3 bg-yellow d-flex justify-content-center align-items-center">
-				<div class="text-center">
-					<p class="text-white">Sconto del</p>
-					<h2 class="text-white">50%</h2>
-				</div>
+				<!-- <BestLocations /> -->
 			</div>
 		</div>
 	</div>
 </template>
 <style lang="scss" scoped>
+/* Contenitore per la barra di scorrimento */
+.overflow-scroll {
+	scrollbar-width: thin; /* Per browser compatibili con lo standard (Firefox) */
+	scrollbar-color: rgba(0, 0, 0, 0) transparent; /* Colore del thumb e del background */
+
+	&::-webkit-scrollbar {
+		width: 6px; /* Larghezza della barra di scorrimento */
+		height: 3px; /* Altezza della barra di scorrimento */
+	}
+
+	&::-webkit-scrollbar-thumb {
+		background: rgba(0, 0, 0, 0); /* Colore del thumb (parte interattiva) */
+		border-radius: 10px; /* Arrotondamento del thumb */
+	}
+
+	&::-webkit-scrollbar-thumb:hover {
+		background: rgba(0, 0, 0, 0); /* Colore del thumb al passaggio del mouse */
+	}
+
+	&::-webkit-scrollbar-track {
+		background: transparent; /* Colore del track (sfondo della barra di scorrimento) */
+	}
+}
+
 .container-fluid {
 	margin-top: 150px;
+	@media screen and (max-width: 768px) {
+		margin-top: 0px;
+	}
 }
 .search-img {
 	width: 150px;
