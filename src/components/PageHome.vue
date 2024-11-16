@@ -14,6 +14,8 @@ export default {
 			filteredRealEstates: [], // Lista filtrata che verrà mostrata
 			services: [], // Lista completa di servizi
 			activeServices: [], // Lista dei servizi attivi (servizi selezionati)
+			citySuggestions: [], // Suggerimenti delle città
+			tomtomApiKey: "YOUR_TOMTOM_API_KEY", // Inserisci la tua chiave API TomTom
 		};
 	},
 	components: {
@@ -144,6 +146,26 @@ export default {
 					placeholder="Numero Stanze"
 					aria-label="Numero Stanze"
 					min="0" />
+
+				<!-- Barra di ricerca con autocompletamento per la città -->
+				<div class="search-bar">
+					<input
+						v-model="searchQuery.city"
+						id="city-input"
+						class="form-control"
+						type="text"
+						placeholder="Cerca una città"
+						@input="onCityInput"
+						autocomplete="off" />
+					<ul v-if="citySuggestions.length" class="suggestions-list">
+						<li
+							v-for="(suggestion, index) in citySuggestions"
+							:key="index"
+							@click="selectCity(suggestion)">
+							{{ suggestion.address.freeformAddress }}
+						</li>
+					</ul>
+				</div>
 			</div>
 		</div>
 
