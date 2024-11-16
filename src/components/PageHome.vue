@@ -222,7 +222,7 @@ export default {
 				<div
 					v-for="realEstate in filteredRealEstates"
 					:key="realEstate.id"
-					class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+					class="col-12 col-sm-6 col-md-4 col-lg-2 ">
 					<router-link
 						:to="{
 							name: 'realEstateDetail',
@@ -230,7 +230,7 @@ export default {
 						}"
 						class="btn hover_card">
 						<div
-							class="card mb-3 mt-3"
+							class="card mb-3 mt-3" style="height: 350px;"
 							:class="{ 'border-wow': realEstate.subscriptions.length > 0 }">
 							<!-- Verifica se subscriptions contiene almeno un elemento -->
 							<div class="row">
@@ -264,7 +264,7 @@ export default {
 						</div>
 					</router-link>
 				</div>
-				<!-- <BestLocations /> -->
+				<BestLocations /> 
 			</div>
 		</div>
 	</div>
@@ -272,32 +272,34 @@ export default {
 <style lang="scss" scoped>
 /* Contenitore per la barra di scorrimento */
 .overflow-scroll {
-	scrollbar-width: thin; /* Per browser compatibili con lo standard (Firefox) */
-	scrollbar-color: rgba(0, 0, 0, 0) transparent; /* Colore del thumb e del background */
-
+	/* Per Firefox */
+	scrollbar-width: thin; /* Imposta una scrollbar più sottile */
+	scrollbar-color: rgba(0, 0, 0, 0) transparent; /* Colore del thumb (scorrimento) e del track (sfondo) */
+  
+	/* Per Webkit (Chrome, Safari, Edge, etc.) */
 	&::-webkit-scrollbar {
-		width: 6px; /* Larghezza della barra di scorrimento */
-		height: 3px; /* Altezza della barra di scorrimento */
+	  width: 6px; /* Larghezza della barra di scorrimento */
+	  height: 3px; /* Altezza della barra di scorrimento (per lo scrolling orizzontale) */
 	}
-
+  
 	&::-webkit-scrollbar-thumb {
-		background: rgba(0, 0, 0, 0); /* Colore del thumb (parte interattiva) */
-		border-radius: 10px; /* Arrotondamento del thumb */
+	  background: rgba(0, 0, 0, 0); /* Colore del thumb (parte interattiva della scrollbar) */
+	  border-radius: 10px; /* Arrotondamento del thumb */
 	}
-
+  
 	&::-webkit-scrollbar-thumb:hover {
-		background: rgba(0, 0, 0, 0); /* Colore del thumb al passaggio del mouse */
+	  background: rgba(0, 0, 0, 0); /* Colore del thumb quando ci si passa sopra */
 	}
-
+  
 	&::-webkit-scrollbar-track {
-		background: transparent; /* Colore del track (sfondo della barra di scorrimento) */
+	  background: transparent; /* Colore del track (sfondo della scrollbar) */
 	}
-}
+  }
 
 .container-fluid {
 	margin-top: 150px;
 	@media screen and (max-width: 768px) {
-		margin-top: 0px;
+		margin-top: 120px;
 	}
 }
 .search-img {
@@ -415,7 +417,7 @@ export default {
 .card-img-cu {
 	width: 100%;
 	object-fit: fill;
-	height: 300px;
+	height: 180px;
 }
 
 .hover_card {

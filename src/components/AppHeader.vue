@@ -35,7 +35,7 @@ export default {
 
 .container-fluid {
 	background-image: url("../assets/bg_2.jpg");
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: top;
 	position: absolute;
@@ -103,14 +103,7 @@ ul.list-unstyled li a:active {
 	padding: 5px;
 }
 
-.app-header {
-	top: 0;
-	left: 0;
-	width: 100%;
-	background-color: #fff;
-	padding: 10px 20px;
-	z-index: 1000;
-}
+
 
 .active-link {
 	border: 2px solid black;
