@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import PageHome from './components/PageHome.vue';
+import PageHomeTwo from './components/PageHomeTwo.vue';
 import RealEstateDetail from './components/RealEstateDetail.vue';
 import RealEstateList from './components/RealEstateList.vue';
 
@@ -8,7 +8,7 @@ const routes = [
     {
         path: '/',
         name: 'home',
-        component: PageHome,
+        component: PageHomeTwo,
     },
     {
         path: '/real-estate/:id',
@@ -17,7 +17,7 @@ const routes = [
         props: true,
     },
     {
-        path: '/real-estate/:city',  // Aggiungi il parametro city nella rotta
+        path: '/real-estate/:city',  
         name: 'realEstateList',
         component: RealEstateList,
     },

@@ -17,7 +17,7 @@ export default {
 	<header class="app-header">
 		<div class="container-fluid"></div>
 		<div class="container position-relative">
-			<AppNavbar />
+			<AppNavbar class="fixed-top pt-3" />
 			<div class="centered-text" v-if="isHomePage">
 				Benvenuto su Bool BNB<br />
 				Scopri quanto è facile trovare la casa che fa per te
@@ -31,7 +31,7 @@ export default {
 	background-image: url("../assets/bg_2.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: center -100px; /* Sposta l'immagine di 20px verso l'alto */
+	background-position: center -150px;
 	position: absolute;
 	background-attachment: fixed;
 	top: 0;
@@ -42,6 +42,7 @@ export default {
 
 	@media (max-width: 992px) {
 		height: 0px;
+		background-position: center 0px;
 	}
 
 	/* Aggiungi un overlay sfumato dalla parte inferiore */

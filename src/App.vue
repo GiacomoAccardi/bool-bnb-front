@@ -13,12 +13,25 @@ export default {
 </script>
 
 <template>
-	<AppHeader />
-	<!-- <router-view></router-view> -->
-	<PageHomeTwo />
-	<AppFooter />
+	<body>
+		<AppHeader />
+		<main>
+			<router-view class="main-section-container"></router-view>
+		</main>
+		<!-- <PageHomeTwo /> -->
+		<AppFooter class="footer-section" />
+	</body>
 </template>
 
 <style lang="scss">
 @import "./styles/generals.scss";
+body {
+	height: 100vh;
+}
+main {
+	min-height: 54.5vh;
+}
+.main-section-container {
+	margin-bottom: 50px;
+}
 </style>

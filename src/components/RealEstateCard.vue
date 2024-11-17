@@ -1,10 +1,5 @@
 <template>
-	<router-link
-		:to="{
-			name: 'realEstateDetail',
-			params: { id: realEstate.id },
-		}"
-		class="btn border-0">
+	<div class="btn border-0" @click="goToDetail(realEstate.id)">
 		<div
 			class="card"
 			:class="{ 'border-wow': realEstate.subscriptions.length > 0 }">
@@ -36,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-	</router-link>
+	</div>
 </template>
 
 <script>
@@ -45,6 +40,11 @@ export default {
 		realEstate: {
 			type: Object,
 			required: true,
+		},
+	},
+	methods: {
+		goToDetail(id) {
+			this.$router.push(`/real-estate/${id}`);
 		},
 	},
 };

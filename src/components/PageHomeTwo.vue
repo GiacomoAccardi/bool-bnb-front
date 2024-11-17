@@ -12,6 +12,6 @@ export default {
 
 <template>
 	<RealEstateList />
-	<BestLocations />
+	<!-- <BestLocations /> -->
 </template>
 <style lang=""></style>

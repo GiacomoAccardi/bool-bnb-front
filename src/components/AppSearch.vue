@@ -1,26 +1,3 @@
-<template>
-	<div class="search-container">
-		<input
-			type="text"
-			v-model="searchQuery"
-			@input="onInputChange"
-			@keydown.up="moveUp"
-			@keydown.down="moveDown"
-			@keydown.enter="selectSuggestionByKey"
-			placeholder="Cerca un immobile..."
-			ref="searchInput" />
-		<ul v-if="suggestions.length > 0" class="autocomplete-suggestions">
-			<li
-				v-for="(suggestion, index) in suggestions"
-				:key="index"
-				:class="{ highlighted: index === selectedIndex }"
-				@click="selectSuggestion(suggestion)">
-				{{ suggestion.address.freeformAddress }}
-			</li>
-		</ul>
-	</div>
-</template>
-
 <script>
 import axios from "axios";
 
@@ -159,9 +136,52 @@ export default {
 };
 </script>
 
+<template>
+	<div class="search-container">
+		<input
+			type="text"
+			v-model="searchQuery"
+			@input="onInputChange"
+			@keydown.up="moveUp"
+			@keydown.down="moveDown"
+			@keydown.enter="selectSuggestionByKey"
+			placeholder="Cerca un immobile..."
+			ref="searchInput"
+			class="SearchInput" />
+		<ul v-if="suggestions.length > 0" class="autocomplete-suggestions">
+			<li
+				v-for="(suggestion, index) in suggestions"
+				:key="index"
+				:class="{ highlighted: index === selectedIndex }"
+				@click="selectSuggestion(suggestion)">
+				{{ suggestion.address.freeformAddress }}
+			</li>
+		</ul>
+	</div>
+</template>
+
 <style scoped>
 .search-container {
 	position: relative;
+}
+.SearchInput {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid #e9e9e9;
+	border-radius: 10px 10px 0px 0px;
+	box-sizing: border-box;
+	font-size: 16px;
+	transition: all 0.3s ease-in-out;
+
+	&:hover {
+		border: 1px solid #bbb;
+	}
+
+	&:focus {
+		outline: none;
+		border-color: #0077cc;
+		box-shadow: 0 0 0 2px rgba(0, 119, 204, 0.3);
+	}
 }
 
 .autocomplete-suggestions {

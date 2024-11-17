@@ -271,7 +271,10 @@ export default {
 <style scoped>
 .container-fluid {
 	margin-top: 250px;
-	margin-bottom: 75px;
+	margin-bottom: 350px;
+	@media screen and (max-width: 992px) {
+		margin-top: 75px;
+	}
 }
 
 .detail-card {
