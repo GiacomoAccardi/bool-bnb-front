@@ -27,7 +27,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Roma' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>
 				</div>
 			</div>
 
@@ -49,7 +49,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Firenze' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>				
 				</div>
 			</div>
 
@@ -71,7 +71,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Venezia' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>				
 				</div>
 			</div>
 
@@ -92,7 +92,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Milano' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>
 				</div>
 			</div>
 
@@ -114,7 +114,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Napoli' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>
 				</div>
 			</div>
 
@@ -125,13 +125,11 @@ export default {};
 						src="../assets/amalfi.jpg"
 						alt="costiera amalfitana"
 						class="img-fluid" />
-					<h2 class="text-center">Costiera Amalfitana</h2>
+					<h2 class="text-center">Bologna</h2>
 					<p class="p-2">
-						Scopri la magia della Costiera Amalfitana, con i suoi panorami
-						mozzafiato e i pittoreschi villaggi a picco sul mare. Il nostro B&B
-						ti offre una vista spettacolare, camere raffinate e una colazione
-						all'insegna dei sapori mediterranei.
+						Scopri Bologna, la città delle torri e dei portici. Il nostro B&B ti accoglie nel cuore del centro storico, a pochi passi dalle principali attrazioni. Soggiorna in un ambiente raffinato e gusta una colazione con i sapori tipici emiliani.
 					</p>
+					
 					<div class="p-2">
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
@@ -139,7 +137,7 @@ export default {};
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 						<i class="fa-solid fa-star" style="color: #ffd43b"></i>
 					</div>
-					<a href="#prenotazioni" class="btn btn-primary mt-3">Scopri di più</a>
+					<router-link :to="{ name: 'realEstateList', params: { city: 'Bologna' } }" class="btn btn-primary hover_card"> Scopri di più </router-link>
 				</div>
 			</div>
 		</div>
@@ -184,7 +182,8 @@ export default {};
 </template>
 <style lang="scss" scoped>
 .container-fluid {
-	margin-top: 150px;
+	
+	overflow: hidden;
 	@media screen and (max-width: 768px) {
 		margin-top: 0px;
 	}
@@ -196,6 +195,7 @@ export default {};
 .content-place {
 	background-color: gray;
 	border-radius: 20px;
+
 }
 .content-place img {
 	width: 100%;

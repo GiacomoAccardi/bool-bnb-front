@@ -14,8 +14,6 @@ export default {
 			filteredRealEstates: [], // Lista filtrata che verrà mostrata
 			services: [], // Lista completa di servizi
 			activeServices: [], // Lista dei servizi attivi (servizi selezionati)
-			citySuggestions: [], // Suggerimenti delle città
-			tomtomApiKey: "YOUR_TOMTOM_API_KEY", // Inserisci la tua chiave API TomTom
 		};
 	},
 	components: {
@@ -31,7 +29,7 @@ export default {
 					rooms: this.searchQuery.rooms,
 				};
 
-				// Fai una richiesta GET al back-end con i parametri di ricerca e i servizi
+				// Fai una richiesta GET al back-end con i parametri di ricerca
 				const response = await axios.get(
 					"http://127.0.0.1:8000/api/real-estates",
 					{ params }
@@ -87,13 +85,51 @@ export default {
 				);
 			}
 
+			// Filtro per il raggio di ricerca
+			if (this.searchQuery.radius > 0) {
+				filtered = filtered.filter((estate) => {
+					const distance = this.calculateDistance(estate);
+					return distance <= this.searchQuery.radius;
+				});
+			}
+
 			// Salvo il risultato filtrato
 			this.filteredRealEstates = filtered;
 		},
 
+		// Metodo per calcolare la distanza (deve essere implementato in base ai dati disponibili)
+		calculateDistance(estate) {
+			// Supponiamo che gli immobili abbiano latitudine e longitudine
+			// Aggiungere una logica per calcolare la distanza in km tra l'utente e l'immobile
+			const userLat = 45.0703; // Esempio di latitudine dell'utente
+			const userLon = 7.6869; // Esempio di longitudine dell'utente
+
+			const estateLat = estate.latitude;
+			const estateLon = estate.longitude;
+
+			// Formula per calcolare la distanza tra due punti sulla Terra (Haversine)
+			const R = 6371; // Raggio della Terra in km
+			const dLat = this.deg2rad(estateLat - userLat);
+			const dLon = this.deg2rad(estateLon - userLon);
+			const a =
+				Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+				Math.cos(this.deg2rad(userLat)) *
+					Math.cos(this.deg2rad(estateLat)) *
+					Math.sin(dLon / 2) *
+					Math.sin(dLon / 2);
+			const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+			const distance = R * c; // Distanza in km
+
+			return distance;
+		},
+
+		// Metodo di supporto per la conversione da gradi a radianti
+		deg2rad(deg) {
+			return deg * (Math.PI / 180);
+		},
+
 		// Metodo per gestire la selezione/deselezione del servizio
 		toggleService(serviceId) {
-			console.log("Before toggle", this.activeServices);
 			if (this.activeServices.includes(serviceId)) {
 				// Se il servizio è già attivo, rimuovilo
 				this.activeServices = this.activeServices.filter(
@@ -103,7 +139,6 @@ export default {
 				// Altrimenti, aggiungi il servizio attivo
 				this.activeServices.push(serviceId);
 			}
-			console.log("After toggle", this.activeServices);
 			// Applica i filtri dopo la selezione
 			this.applyFilters();
 		},
@@ -118,6 +153,9 @@ export default {
 		},
 		"searchQuery.rooms": function () {
 			this.applyFilters();
+		},
+		"searchQuery.radius": function () {
+			this.applyFilters(); // Applicare i filtri quando cambia il raggio
 		},
 	},
 	mounted() {
@@ -146,26 +184,6 @@ export default {
 					placeholder="Numero Stanze"
 					aria-label="Numero Stanze"
 					min="0" />
-
-				<!-- Barra di ricerca con autocompletamento per la città -->
-				<div class="search-bar">
-					<input
-						v-model="searchQuery.city"
-						id="city-input"
-						class="form-control"
-						type="text"
-						placeholder="Cerca una città"
-						@input="onCityInput"
-						autocomplete="off" />
-					<ul v-if="citySuggestions.length" class="suggestions-list">
-						<li
-							v-for="(suggestion, index) in citySuggestions"
-							:key="index"
-							@click="selectCity(suggestion)">
-							{{ suggestion.address.freeformAddress }}
-						</li>
-					</ul>
-				</div>
 			</div>
 		</div>
 
@@ -194,7 +212,7 @@ export default {
 				<div
 					v-for="realEstate in filteredRealEstates"
 					:key="realEstate.id"
-					class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+					class="col-12 col-sm-6 col-md-4 col-lg-2">
 					<router-link
 						:to="{
 							name: 'realEstateDetail',
@@ -203,6 +221,7 @@ export default {
 						class="btn hover_card">
 						<div
 							class="card mb-3 mt-3"
+							style="height: 350px"
 							:class="{ 'border-wow': realEstate.subscriptions.length > 0 }">
 							<!-- Verifica se subscriptions contiene almeno un elemento -->
 							<div class="row">
@@ -236,7 +255,7 @@ export default {
 						</div>
 					</router-link>
 				</div>
-				<!-- <BestLocations /> -->
+				<BestLocations />
 			</div>
 		</div>
 	</div>
@@ -244,32 +263,44 @@ export default {
 <style lang="scss" scoped>
 /* Contenitore per la barra di scorrimento */
 .overflow-scroll {
-	scrollbar-width: thin; /* Per browser compatibili con lo standard (Firefox) */
-	scrollbar-color: rgba(0, 0, 0, 0) transparent; /* Colore del thumb e del background */
+	/* Per Firefox */
+	scrollbar-width: thin; /* Imposta una scrollbar più sottile */
+	scrollbar-color: rgba(0, 0, 0, 0) transparent; /* Colore del thumb (scorrimento) e del track (sfondo) */
 
+	/* Per Webkit (Chrome, Safari, Edge, etc.) */
 	&::-webkit-scrollbar {
 		width: 6px; /* Larghezza della barra di scorrimento */
-		height: 3px; /* Altezza della barra di scorrimento */
+		height: 3px; /* Altezza della barra di scorrimento (per lo scrolling orizzontale) */
 	}
 
 	&::-webkit-scrollbar-thumb {
-		background: rgba(0, 0, 0, 0); /* Colore del thumb (parte interattiva) */
+		background: rgba(
+			0,
+			0,
+			0,
+			0
+		); /* Colore del thumb (parte interattiva della scrollbar) */
 		border-radius: 10px; /* Arrotondamento del thumb */
 	}
 
 	&::-webkit-scrollbar-thumb:hover {
-		background: rgba(0, 0, 0, 0); /* Colore del thumb al passaggio del mouse */
+		background: rgba(
+			0,
+			0,
+			0,
+			0
+		); /* Colore del thumb quando ci si passa sopra */
 	}
 
 	&::-webkit-scrollbar-track {
-		background: transparent; /* Colore del track (sfondo della barra di scorrimento) */
+		background: transparent; /* Colore del track (sfondo della scrollbar) */
 	}
 }
 
 .container-fluid {
 	margin-top: 150px;
 	@media screen and (max-width: 768px) {
-		margin-top: 0px;
+		margin-top: 120px;
 	}
 }
 .search-img {
@@ -387,7 +418,7 @@ export default {
 .card-img-cu {
 	width: 100%;
 	object-fit: fill;
-	height: 300px;
+	height: 180px;
 }
 
 .hover_card {
