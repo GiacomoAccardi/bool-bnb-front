@@ -13,9 +13,9 @@ export default {
 </script>
 
 <template>
-	<!-- <AppHeader /> -->
-	<!-- <router-view></router-view> -->
-	<PageHomeTwo />
+	<AppHeader />
+	<router-view></router-view>
+	<!-- <PageHomeTwo /> -->
 	<AppFooter />
 </template>
 
