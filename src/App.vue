@@ -14,8 +14,8 @@ export default {
 
 <template>
 	<AppHeader />
-	<router-view></router-view>
-	<!-- <PageHomeTwo /> -->
+	<!-- <router-view></router-view> -->
+	<PageHomeTwo />
 	<AppFooter />
 </template>
 

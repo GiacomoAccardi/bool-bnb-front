@@ -13,10 +13,10 @@ export default {};
 			<div class="col-9">
 				<div class="content float-end">
 					<ul class="list-unstyled mt-3 d-flex justify-content-end">
-						<li class="mx-3 border-wow">
+						<li class="mx-3">
 							<a href="/" class="text-secondary text-decoration-none">Home</a>
 						</li>
-						<li class="mx-3 border-wow">
+						<li class="mx-3">
 							<a
 								href="http://127.0.0.1:8000/"
 								class="text-secondary text-decoration-none"
@@ -35,19 +35,34 @@ export default {};
 	z-index: 1000;
 }
 
-.border-wow {
-	padding: 5px;
-	margin: 5px;
-	transition: all 0.3s ease-in-out;
-	&:hover {
-		border: 4px solid transparent;
-		border-image: linear-gradient(
-				114deg,
-				rgb(38, 38, 159) 4%,
-				rgba(128, 234, 255, 1) 92%
-			)
-			1;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.415);
+li {
+	cursor: pointer;
+	position: relative;
+
+	& a {
+		text-decoration: none;
+		color: inherit;
+		position: relative;
+		display: inline-block;
+	}
+
+	&:hover a {
+		color: blue;
+	}
+
+	&:hover::after {
+		width: 110%;
+	}
+
+	&::after {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 0%;
+		height: 2px;
+		background-color: blue;
+		transition: width 0.3s ease-in-out;
 	}
 }
 

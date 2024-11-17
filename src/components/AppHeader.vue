@@ -1,16 +1,3 @@
-<template>
-	<header class="app-header">
-		<div class="container-fluid"></div>
-		<div class="container position-relative">
-			<AppNavbar />
-			<div class="centered-text" v-if="isHomePage">
-				Benvenuto su Bool BNB<br />
-				Scopri quanto è facile trovare la casa che fa per te
-			</div>
-		</div>
-	</header>
-</template>
-
 <script>
 import AppNavbar from "./AppNavbar.vue";
 export default {
@@ -26,18 +13,25 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.logo {
-	height: 60px;
-	position: relative;
-	z-index: 10;
-}
+<template>
+	<header class="app-header">
+		<div class="container-fluid"></div>
+		<div class="container position-relative">
+			<AppNavbar />
+			<div class="centered-text" v-if="isHomePage">
+				Benvenuto su Bool BNB<br />
+				Scopri quanto è facile trovare la casa che fa per te
+			</div>
+		</div>
+	</header>
+</template>
 
+<style lang="scss" scoped>
 .container-fluid {
 	background-image: url("../assets/bg_2.jpg");
 	background-size: cover;
 	background-repeat: no-repeat;
-	background-position: top;
+	background-position: center -100px; /* Sposta l'immagine di 20px verso l'alto */
 	position: absolute;
 	background-attachment: fixed;
 	top: 0;
@@ -45,14 +39,21 @@ export default {
 	width: 100%;
 	height: 750px;
 	overflow: hidden;
+
 	@media (max-width: 992px) {
-		height: 500px;
+		height: 0px;
 	}
-	@media (max-width: 768px) {
-		height: 400px;
-	}
-	@media screen and (max-width: 576px) {
-		height: 300px;
+
+	/* Aggiungi un overlay sfumato dalla parte inferiore */
+	&::after {
+		content: "";
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 50%; /* Modifica questa altezza per il grado di sfumatura */
+		background: linear-gradient(to top, white, transparent);
+		pointer-events: none; /* Evita che l'overlay interferisca con il contenuto */
 	}
 }
 .container {
@@ -60,13 +61,7 @@ export default {
 	height: 650px;
 
 	@media (max-width: 992px) {
-		height: 400px;
-	}
-	@media (max-width: 768px) {
-		height: 300px;
-	}
-	@media screen and (max-width: 576px) {
-		height: 200px;
+		height: 0px;
 	}
 }
 
@@ -93,7 +88,7 @@ ul.list-unstyled li a {
 	font-weight: bold;
 	z-index: 2;
 
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 992px) {
 		display: none;
 	}
 }
@@ -102,8 +97,6 @@ ul.list-unstyled li a:active {
 	border: 1px solid black;
 	padding: 5px;
 }
-
-
 
 .active-link {
 	border: 2px solid black;
