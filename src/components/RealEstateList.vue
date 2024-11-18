@@ -391,7 +391,8 @@ export default {
 						<div
 							v-for="service in services"
 							:key="service.id"
-							class="btn border-0 service-btn">
+							class="btn border-0 service-btn"
+							:title="service.name">
 							<div
 								class="service-icon d-flex justify-content-center align-items-center"
 								@click="toggleService(service.id)"
@@ -401,7 +402,6 @@ export default {
 								}">
 								<i :class="service.icon + ' fa'"></i>
 							</div>
-							<div class="service-title">{{ service.name }}</div>
 						</div>
 					</div>
 				</div>
@@ -628,22 +628,14 @@ export default {
 
 .service-btn {
 	display: flex;
-	flex-direction: column;
 	align-items: center;
-	gap: 5px;
-}
-
-.service-title {
-	font-size: 0.8rem;
-	color: #666;
-	text-align: center;
-	max-width: 80px; // Limita la larghezza del testo
-	overflow-wrap: break-word;
+	justify-content: center;
+	padding: 5px;
+	position: relative;
 }
 
 .service-icon {
 	height: 35px;
 	width: 35px;
-	// ... mantieni gli altri stili esistenti ...
 }
 </style>
