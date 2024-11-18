@@ -197,7 +197,7 @@ export default {
 	width: 100%;
 	max-height: 200px;
 	overflow-y: auto;
-	z-index: 10;
+	z-index: 1500;
 }
 
 .autocomplete-suggestions li {

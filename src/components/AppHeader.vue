@@ -15,48 +15,99 @@ export default {
 
 <template>
 	<header class="app-header">
-		<div class="container-fluid"></div>
+		<div class="container-fluid position-relative">
+			<div class="blob-container">
+				<div class="blob"></div>
+			</div>
+		</div>
 		<div class="container position-relative">
 			<AppNavbar class="fixed-top pt-3" />
 			<div class="centered-text" v-if="isHomePage">
-				Benvenuto su Bool BNB<br />
-				Scopri quanto è facile trovare la casa che fa per te
+				<span class="title-header-custom">Benvenuto su Bool BNB</span><br />
+				<span class="subtitle-header-custom"
+					>Scopri quanto è facile trovare la casa che fa per te</span
+				>
 			</div>
 		</div>
 	</header>
 </template>
 
 <style lang="scss" scoped>
-.container-fluid {
-	background-image: url("../assets/bg_2.jpg");
-	background-size: cover;
-	background-repeat: no-repeat;
-	background-position: center -150px;
+.title-header-custom {
+	font-size: 3rem;
+}
+.subtitle-header-custom {
+	font-size: 2rem;
+}
+
+.blob-container {
 	position: absolute;
-	background-attachment: fixed;
 	top: 0;
 	left: 0;
 	width: 100%;
-	height: 750px;
+	height: 700px;
 	overflow: hidden;
+	background: #1166ef;
 
 	@media (max-width: 992px) {
 		height: 0px;
-		background-position: center 0px;
 	}
 
-	/* Aggiungi un overlay sfumato dalla parte inferiore */
+	/* Per gestire overlay sfumato */
 	&::after {
 		content: "";
 		position: absolute;
 		bottom: 0;
 		left: 0;
 		width: 100%;
-		height: 50%; /* Modifica questa altezza per il grado di sfumatura */
-		background: linear-gradient(to top, white, transparent);
-		pointer-events: none; /* Evita che l'overlay interferisca con il contenuto */
+		height: 100%;
+		background: linear-gradient(to top, rgb(255, 255, 255), transparent);
+		pointer-events: none;
 	}
 }
+
+.blob {
+	position: absolute;
+	width: 400px;
+	height: 400px;
+	background: linear-gradient(135deg, rgba(215, 109, 214, 1) 38%, #f4b09e);
+	border-radius: 50%;
+	animation: blob-animation 30s infinite ease-in-out;
+
+	@media (max-width: 992px) {
+		width: 300px;
+		height: 300px;
+	}
+}
+
+/* Animazione del blob che cambia forma, posizione e si muove su tutta la sezione */
+@keyframes blob-animation {
+	0% {
+		transform: translate(300%, -75%) scale(1) rotate(0deg);
+		border-radius: 50%;
+	}
+	20% {
+		transform: translate(150%, -10%) scale(1.2) rotate(30deg);
+		border-radius: 60% 40% 50% 30%;
+	}
+	40% {
+		transform: translate(25%, 50%) scale(1.3) rotate(60deg);
+		border-radius: 50% 60% 30% 40%;
+	}
+	60% {
+		transform: translate(350%, 120%) scale(1.4) rotate(90deg);
+		border-radius: 40% 50% 70% 30%;
+	}
+	80% {
+		transform: translate(-100%, -35%) scale(1.5) rotate(120deg);
+		border-radius: 30% 60% 40% 50%;
+	}
+	100% {
+		transform: translate(300%, -75%) scale(1) rotate(150deg);
+		border-radius: 50%;
+	}
+}
+
 .container {
 	width: 100%;
 	height: 650px;
@@ -66,24 +117,12 @@ export default {
 	}
 }
 
-.content {
-	position: relative;
-	z-index: 10;
-}
-
-ul.list-unstyled li a {
-	color: #000000;
-	font-size: 18px;
-	text-transform: uppercase;
-	transition: color 0.3s ease;
-}
-
 .centered-text {
 	position: absolute;
-	top: 40%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	color: #000;
+	color: #fff;
 	font-size: 2rem;
 	text-align: center;
 	font-weight: bold;
@@ -92,33 +131,5 @@ ul.list-unstyled li a {
 	@media screen and (max-width: 992px) {
 		display: none;
 	}
-}
-
-ul.list-unstyled li a:active {
-	border: 1px solid black;
-	padding: 5px;
-}
-
-.active-link {
-	border: 2px solid black;
-	padding: 5px;
-}
-
-.sticky {
-	position: fixed;
-	top: 0;
-	width: 100%;
-}
-
-.rainbow3 {
-	display: none;
-	background: linear-gradient(
-		114deg,
-		rgba(2, 0, 36, 1) 21%,
-		rgba(1, 0, 255, 1) 45%
-	);
-	-webkit-background-clip: text;
-	background-clip: text;
-	color: transparent;
 }
 </style>

@@ -15,8 +15,8 @@ export default {
 			filteredRealEstates: [],
 			loading: false,
 			error: null,
-			radius: 20, // Raggio di ricerca iniziale in km
-			minRooms: 1, // Numero minimo di stanze
+			radius: 20,
+			minRooms: 1,
 			coordinates: null,
 			services: [],
 			activeServices: [],
@@ -55,7 +55,7 @@ export default {
 				.get("http://127.0.0.1:8000/api/services")
 				.then((response) => {
 					if (response.data.success) {
-						this.services = response.data.data; // Assegna i dati ai servizi
+						this.services = response.data.data;
 					} else {
 						this.error = "Nessun servizio trovato.";
 					}

@@ -14,12 +14,12 @@ export default {};
 				<div class="content float-end">
 					<ul class="list-unstyled mt-3 d-flex justify-content-end">
 						<li class="mx-3">
-							<a href="/" class="text-secondary text-decoration-none">Home</a>
+							<a href="/" class="text-custom text-decoration-none">Home</a>
 						</li>
 						<li class="mx-3">
 							<a
 								href="http://127.0.0.1:8000/"
-								class="text-secondary text-decoration-none"
+								class="text-custom text-decoration-none"
 								target="_blank"
 								>Affitta con Bool b&b</a
 							>
@@ -47,7 +47,7 @@ li {
 	}
 
 	&:hover a {
-		color: blue;
+		color: white;
 	}
 
 	&:hover::after {
@@ -61,8 +61,15 @@ li {
 		left: 0;
 		width: 0%;
 		height: 2px;
-		background-color: blue;
+		background-color: white;
 		transition: width 0.3s ease-in-out;
+	}
+}
+
+.text-custom {
+	color: grey;
+	@media screen and (min-width: 992px) {
+		color: white;
 	}
 }
 
