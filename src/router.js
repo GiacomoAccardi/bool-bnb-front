@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import PageHomeTwo from './components/PageHomeTwo.vue';
 import RealEstateDetail from './components/RealEstateDetail.vue';
 import RealEstateList from './components/RealEstateList.vue';
+import RealEstateListTwo from './components/RealEstateListTwo.vue';
 
 
 const routes = [
@@ -19,7 +20,7 @@ const routes = [
     {
         path: '/real-estate/:city',  
         name: 'realEstateList',
-        component: RealEstateList,
+        component: RealEstateListTwo,
     },
 
 ];
