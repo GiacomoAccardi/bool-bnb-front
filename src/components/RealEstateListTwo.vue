@@ -17,7 +17,7 @@
 			<div
 				v-for="realEstate in filteredRealEstates"
 				:key="realEstate.id"
-				class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+				class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
 				<router-link
 					:to="{
 						name: 'realEstateDetail',
@@ -114,6 +114,7 @@ export default {
 	border: none !important;
 	transition: all 0.3s ease-in-out;
 	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+	margin: 15px 0;
 
 	&:hover {
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.515);
@@ -125,6 +126,7 @@ export default {
 		padding: 0 5px;
 		text-overflow: ellipsis;
 		white-space: nowrap;
+		font-size: 1.2rem;
 	}
 
 	.adv-badge {
@@ -149,7 +151,7 @@ export default {
 }
 
 .card-body {
-	padding: 5%;
+	padding: 15px;
 }
 
 .border-wow {
