@@ -217,8 +217,8 @@ export default {
 				</div>
 
 				<div class="col-12 col-lg-6 mt-3 mt-lg-0">
-					<h2 class="form-title">Chiedi più informazioni!</h2>
 					<div class="contact-form">
+						<h2 class="form-title">Chiedi più informazioni!</h2>
 						<form @submit.prevent="submitForm">
 							<div class="form-group">
 								<input
