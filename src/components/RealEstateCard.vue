@@ -74,13 +74,12 @@ export default {
 		position: absolute;
 		top: 10px;
 		right: 10px;
-		background: linear-gradient(
-			114deg,
-			rgb(38, 38, 159) 4%,
-			rgba(128, 234, 255, 1) 92%
-		);
-		color: white;
-		padding: 10px;
+		background: rgba(255, 255, 255, 0.9);
+		color: #2626a0;
+		padding: 8px 15px;
+		border-radius: 20px;
+		font-weight: 600;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	}
 }
 .card-img {
@@ -96,14 +95,22 @@ export default {
 }
 
 .border-wow {
-	border: 4px solid transparent !important;
-	border-image: linear-gradient(
-			114deg,
-			rgb(38, 38, 159) 4%,
-			rgba(128, 234, 255, 1) 92%
-		)
-		1 !important;
-	border-radius: 10px !important;
+	border: 2px solid #2626a0 !important;
+	border-radius: 8px !important;
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: -2px;
+		left: -2px;
+		right: -2px;
+		bottom: -2px;
+		background: linear-gradient(114deg, #2626a0 4%, #80eaff 92%);
+		border-radius: 8px;
+		z-index: -1;
+		opacity: 0.1;
+	}
 }
 
 .real-estate-card h3 {

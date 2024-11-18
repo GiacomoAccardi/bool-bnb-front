@@ -102,7 +102,10 @@ export default {
 
 <template>
 	<div class="container">
-		<div v-if="realEstate" class="detail-card">
+		<div
+			v-if="realEstate"
+			class="detail-card"
+			:class="{ 'sponsored-detail': realEstate.subscriptions?.length > 0 }">
 			<div class="row mb-3">
 				<div class="col-12 col-lg-6 py-3 px-4">
 					<div class="info-container">
@@ -113,6 +116,12 @@ export default {
 									<i class="fas fa-arrow-left"></i>
 								</router-link>
 								<h2 class="property-title mb-0">{{ realEstate.title }}</h2>
+								<div
+									v-if="realEstate.subscriptions?.length > 0"
+									class="sponsored-badge ms-3">
+									<i class="fas fa-star me-1"></i>
+									Sponsorizzato
+								</div>
 								<div
 									class="availability ms-3"
 									:class="{
@@ -772,6 +781,62 @@ textarea.form-control {
 
 	.property-price {
 		font-size: 1.3rem;
+	}
+}
+
+.sponsored-detail {
+	position: relative;
+
+	&::before {
+		content: "";
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		border-radius: 10px;
+		background: linear-gradient(114deg, #2626a0 4%, #80eaff 92%);
+		opacity: 0.05;
+		pointer-events: none;
+	}
+}
+
+.sponsored-badge {
+	background: linear-gradient(114deg, #2626a0 4%, #80eaff 92%);
+	color: white;
+	padding: 8px 15px;
+	border-radius: 20px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	animation: pulse 2s infinite;
+
+	i {
+		color: #ffd700;
+	}
+}
+
+@keyframes pulse {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(1.05);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
+.info-container {
+	&.sponsored {
+		border: 2px solid transparent;
+		background-image: linear-gradient(white, white),
+			linear-gradient(114deg, #2626a0 4%, #80eaff 92%);
+		background-origin: border-box;
+		background-clip: content-box, border-box;
 	}
 }
 </style>
