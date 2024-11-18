@@ -57,7 +57,16 @@ export default {
 <style scoped>
 .map-container {
 	width: 100%;
-	height: 100%;
+	aspect-ratio: 1/1;
+
+	@media (min-width: 768px) {
+		height: 400px;
+		width: 100%;
+	}
+
+	@media (min-width: 1200px) {
+		height: 500px;
+	}
 }
 
 .map {

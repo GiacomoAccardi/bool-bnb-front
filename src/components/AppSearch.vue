@@ -38,7 +38,7 @@ export default {
 		// Funzione per chiamare l'API di TomTom per ottenere le suggestioni
 		async fetchSuggestions() {
 			const tomtomApiKey = "9Yq5kH65us12yazEXv9SX8bGsAYxX1fL"; // Sostituisci con la tua chiave API di TomTom
-			const url = `https://api.tomtom.com/search/2/search/${this.searchQuery}.json?key=${tomtomApiKey}&typeahead=true&limit=5&language=it-IT`;
+			const url = `https://api.tomtom.com/search/2/search/${this.searchQuery}.json?key=${tomtomApiKey}&typeahead=true&limit=5&language=it-IT&countrySet=IT`;
 
 			console.log("Fetching suggestions for:", this.searchQuery); // Log per tracciare la richiesta API
 
@@ -111,8 +111,11 @@ export default {
 		// Funzione per selezionare una suggestione tramite tastiera
 		selectSuggestionByKey() {
 			if (this.selectedIndex !== -1) {
-				// Se un elemento è selezionato con la tastiera, selezionalo
+				// If an element is selected with keyboard, select it
 				this.selectSuggestion(this.suggestions[this.selectedIndex]);
+			} else if (this.suggestions.length > 0) {
+				// If no element is selected but we have suggestions, select the first one
+				this.selectSuggestion(this.suggestions[0]);
 			}
 		},
 		// Funzione per nascondere le suggestioni se clicchi fuori

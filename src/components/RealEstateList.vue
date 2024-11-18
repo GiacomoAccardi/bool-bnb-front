@@ -188,10 +188,10 @@ export default {
 	<div class="container-fluid px-5">
 		<div
 			class="d-flex justify-content-center flex-column align-items-center mb-5">
-			<div class="w-50">
+			<div class="custom-width-search">
 				<AppSearch @search-coordinates="filterRealEstates" />
 			</div>
-			<div class="w-50 mb-3">
+			<div class="custom-width-search mb-3">
 				<div class="accordion w-100" id="accordionExample">
 					<div class="accordion-item">
 						<h2 class="accordion-header" id="headingOne">
@@ -270,7 +270,10 @@ export default {
 						class="d-flex justify-content-start overflow-scroll services-wrapper"
 						ref="servicesScroll"
 						@scroll="checkScroll">
-						<div v-for="service in services" :key="service.id" class="btn">
+						<div
+							v-for="service in services"
+							:key="service.id"
+							class="btn border-0">
 							<div
 								class="service-icon d-flex justify-content-center align-items-center"
 								style="height: 35px; width: 35px"
@@ -311,7 +314,7 @@ export default {
 	</div>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 
 .real-estate-list {
@@ -328,8 +331,14 @@ export default {
 	width: 100%;
 }
 
-.w-33 {
-	width: calc(100% / 3);
+.custom-width-search {
+	width: 100%;
+	@media (min-width: 576px) {
+		width: 75%;
+	}
+	@media (min-width: 992px) {
+		width: 50%;
+	}
 }
 
 .range-slider input {
@@ -426,6 +435,9 @@ export default {
 	transition: all 0.3s ease;
 	padding: 8px;
 	border-radius: 8px;
+	&:focus {
+		border: none;
+	}
 }
 
 .service-icon.not-active {
@@ -435,7 +447,7 @@ export default {
 
 .service-icon.active {
 	color: white;
-	background-color: #1166ef; /* Il colore blu che stai già usando */
+	background-color: #1166ef;
 }
 
 .service-icon:hover {
@@ -443,13 +455,13 @@ export default {
 }
 
 .services-wrapper {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none;
+	scrollbar-width: none;
 	position: relative;
 }
 
 .services-wrapper::-webkit-scrollbar {
-	display: none; /* Chrome, Safari and Opera */
+	display: none; /* Chrome, Safari e Opera */
 }
 
 .scroll-arrow {
