@@ -104,69 +104,85 @@ export default {
 	<div class="container">
 		<div v-if="realEstate" class="detail-card">
 			<div class="row mb-3">
-				<div class="col-12 col-lg-6 py-3 px-4 custom-height">
-					<div class="d-flex align-items-center">
-						<div class="d-flex align-items-center">
-							<router-link to="/" class="go-back"
-								><i class="fas fa-arrow-left"></i
-							></router-link>
-							<h2 class="pt-1">{{ realEstate.title }}</h2>
+				<div class="col-12 col-lg-6 py-3 px-4">
+					<div class="info-container">
+						<!-- Header section -->
+						<div class="property-header">
+							<div class="d-flex align-items-center mb-3">
+								<router-link to="/" class="go-back">
+									<i class="fas fa-arrow-left"></i>
+								</router-link>
+								<h2 class="property-title mb-0">{{ realEstate.title }}</h2>
+								<div
+									class="availability ms-3"
+									:class="{
+										'availability-available': realEstate.availability,
+										'availability-unavailable': !realEstate.availability,
+									}"></div>
+							</div>
+							<h4 class="property-price">€ {{ realEstate.price }}</h4>
+							<p class="property-address">
+								{{ realEstate.address }}, {{ realEstate.city }}
+							</p>
 						</div>
-						<div
-							class="availability ms-3 d-none d-sm-block"
-							:class="{
-								'availability-available': realEstate.availability,
-								'availability-unavailable': !realEstate.availability,
-							}"></div>
-					</div>
-					<h4 class="price fw-light">€ {{ realEstate.price }}</h4>
-					<p>{{ realEstate.address }}, {{ realEstate.city }}</p>
-					<p>{{ realEstate.description }}</p>
-					<hr />
-					<div class="row">
-						<div class="col-6">
-							<div class="property-details">
-								<p>
-									<i class="fas fa-house"></i> {{ realEstate.rooms }} Stanze
-								</p>
-								<p>
-									<i class="fas fa-bath"></i> {{ realEstate.bathrooms }} Bagni
-								</p>
-								<p><i class="fas fa-bed"></i> {{ realEstate.beds }} Letti</p>
-								<p>
-									<i class="fas fa-ruler-combined"></i>
-									{{ realEstate.square_meter }} m²
-								</p>
-								<p>
-									<i class="fas fa-building"></i>
-									{{ realEstate.structure_types }}
-								</p>
-								<div class="d-flex align-items-center">
-									<div
-										class="small-availability me-2"
-										:class="{
-											'availability-available': realEstate.availability,
-											'availability-unavailable': !realEstate.availability,
-										}"></div>
-									<p>
-										{{
+
+						<!-- Description -->
+						<div class="property-description">
+							<p>{{ realEstate.description }}</p>
+						</div>
+
+						<hr class="divider" />
+
+						<!-- Details Grid -->
+						<div class="row">
+							<div class="col-6">
+								<div class="property-features">
+									<div class="feature-item">
+										<i class="fas fa-house"></i>
+										<span>{{ realEstate.rooms }} Stanze</span>
+									</div>
+									<div class="feature-item">
+										<i class="fas fa-bath"></i>
+										<span>{{ realEstate.bathrooms }} Bagni</span>
+									</div>
+									<div class="feature-item">
+										<i class="fas fa-bed"></i>
+										<span>{{ realEstate.beds }} Letti</span>
+									</div>
+									<div class="feature-item">
+										<i class="fas fa-ruler-combined"></i>
+										<span>{{ realEstate.square_meter }} m²</span>
+									</div>
+									<div class="feature-item">
+										<i class="fas fa-building"></i>
+										<span>{{ realEstate.structure_types }}</span>
+									</div>
+									<div class="feature-item">
+										<div
+											class="small-availability me-2"
+											:class="{
+												'availability-available': realEstate.availability,
+												'availability-unavailable': !realEstate.availability,
+											}"></div>
+										<span>{{
 											realEstate.availability
 												? "Disponibile"
 												: "Non Disponibile"
-										}}
-									</p>
+										}}</span>
+									</div>
 								</div>
 							</div>
-						</div>
-						<div class="col-6">
-							<div class="property-details">
-								<div class="services">
-									<p><strong>Servizi disponibili:</strong></p>
-									<ul class="list-unstyled">
+
+							<div class="col-6">
+								<div class="property-services">
+									<h5 class="services-title">Servizi disponibili:</h5>
+									<ul class="services-list">
 										<li
 											v-for="service in realEstate.services"
-											:key="service.id">
-											<i :class="service.icon"></i> {{ service.name }}
+											:key="service.id"
+											class="service-item">
+											<i :class="service.icon"></i>
+											<span>{{ service.name }}</span>
 										</li>
 									</ul>
 								</div>
@@ -174,7 +190,7 @@ export default {
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-lg-6 mt-5 mt-md-0">
+				<div class="col-12 col-lg-6 mt-5 mt-md-0 py-4">
 					<img
 						:src="'http://127.0.0.1:8000/storage/' + realEstate.portrait"
 						class="detail-img rounded-1"
@@ -192,78 +208,75 @@ export default {
 				</div>
 
 				<div class="col-12 col-lg-6 mt-3 mt-lg-0">
-					<h2>Chiedi più informazioni!</h2>
+					<h2 class="form-title">Chiedi più informazioni!</h2>
 					<div class="contact-form">
 						<form @submit.prevent="submitForm">
 							<div class="form-group">
-								<label for="name">Nome</label>
 								<input
 									type="text"
 									id="name"
 									v-model="formData.name"
 									class="form-control"
-									:class="{ 'is-invalid': errors.name }" />
+									:class="{ 'is-invalid': errors.name }"
+									placeholder="Nome" />
 								<div v-if="errors.name" class="invalid-feedback">
 									{{ errors.name[0] }}
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="surname">Cognome</label>
 								<input
 									type="text"
 									id="surname"
 									v-model="formData.surname"
 									class="form-control"
-									:class="{ 'is-invalid': errors.surname }" />
+									:class="{ 'is-invalid': errors.surname }"
+									placeholder="Cognome" />
 								<div v-if="errors.surname" class="invalid-feedback">
 									{{ errors.surname[0] }}
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="email">Email</label>
 								<input
 									type="email"
 									id="email"
 									v-model="formData.email"
 									class="form-control"
-									:class="{ 'is-invalid': errors.email }" />
+									:class="{ 'is-invalid': errors.email }"
+									placeholder="Email" />
 								<div v-if="errors.email" class="invalid-feedback">
 									{{ errors.email[0] }}
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="phone">Telefono</label>
 								<input
-									type="text"
+									type="tel"
 									id="phone"
 									v-model="formData.phone"
 									class="form-control"
-									:class="{ 'is-invalid': errors.phone }" />
+									:class="{ 'is-invalid': errors.phone }"
+									placeholder="Telefono" />
 								<div v-if="errors.phone" class="invalid-feedback">
 									{{ errors.phone[0] }}
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label for="message">Messaggio</label>
 								<textarea
 									id="message"
 									v-model="formData.message"
 									class="form-control"
-									:class="{ 'is-invalid': errors.message }"></textarea>
+									:class="{ 'is-invalid': errors.message }"
+									placeholder="Il tuo messaggio..."
+									rows="4"></textarea>
 								<div v-if="errors.message" class="invalid-feedback">
 									{{ errors.message[0] }}
 								</div>
 							</div>
 
-							<input type="hidden" v-model="formData.real_estate_id" />
-
-							<button type="submit" class="btn btn-primary mt-3 w-100">
-								Invia
-							</button>
+							<button type="submit" class="submit-btn">Invia richiesta</button>
 						</form>
 					</div>
 				</div>
@@ -331,7 +344,7 @@ export default {
 	border-radius: 10px;
 	object-fit: cover;
 	@media (min-width: 768px) {
-		height: 400px;
+		height: 100%;
 	}
 }
 
@@ -515,5 +528,250 @@ export default {
 	--finalSize: 35vmin;
 	left: 70%;
 	top: 60%;
+}
+
+.form-title {
+	font-size: 1.8rem;
+	font-weight: 300;
+	margin-bottom: 2rem;
+	color: #333;
+}
+
+.contact-form {
+	background: #fff;
+	padding: 2rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+	margin-bottom: 1.5rem;
+	position: relative;
+}
+
+.form-control {
+	width: 100%;
+	padding: 12px 16px;
+	border: 1px solid #e0e0e0;
+	border-radius: 8px;
+	font-size: 1rem;
+	transition: all 0.3s ease;
+	background-color: #f8f9fa;
+
+	&:focus {
+		outline: none;
+		border-color: #0d6efd;
+		box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.1);
+		background-color: #fff;
+	}
+
+	&::placeholder {
+		color: #adb5bd;
+	}
+
+	&.is-invalid {
+		border-color: #dc3545;
+		background-color: #fff;
+
+		&:focus {
+			box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+		}
+	}
+}
+
+textarea.form-control {
+	resize: vertical;
+	min-height: 120px;
+}
+
+.invalid-feedback {
+	font-size: 0.875rem;
+	color: #dc3545;
+	margin-top: 0.5rem;
+	padding-left: 0.5rem;
+}
+
+.submit-btn {
+	width: 100%;
+	padding: 14px 24px;
+	background-color: #0d6efd;
+	color: white;
+	border: none;
+	border-radius: 8px;
+	font-size: 1rem;
+	font-weight: 500;
+	cursor: pointer;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background-color: #0b5ed7;
+		transform: translateY(-1px);
+		box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+	}
+
+	&:active {
+		transform: translateY(0);
+		box-shadow: none;
+	}
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+	.contact-form {
+		padding: 1.5rem;
+	}
+
+	.form-title {
+		font-size: 1.5rem;
+		margin-bottom: 1.5rem;
+	}
+}
+
+.info-container {
+	background: #fff;
+	padding: 2rem;
+	border-radius: 12px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	height: 100%;
+}
+
+.property-header {
+	margin-bottom: 1.5rem;
+}
+
+.property-title {
+	font-size: 1.8rem;
+	font-weight: 500;
+	color: #333;
+	margin-right: 1rem;
+}
+
+.property-price {
+	font-size: 1.5rem;
+	font-weight: 600;
+	color: #0d6efd;
+	margin-bottom: 0.5rem;
+}
+
+.property-address {
+	color: #666;
+	font-size: 1rem;
+	margin-bottom: 1rem;
+}
+
+.property-description {
+	color: #555;
+	line-height: 1.6;
+	margin-bottom: 1.5rem;
+}
+
+.divider {
+	border-color: #e0e0e0;
+	margin: 1.5rem 0;
+}
+
+.property-features {
+	.feature-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 1rem;
+		color: #555;
+
+		i {
+			width: 24px;
+			margin-right: 10px;
+			color: #0d6efd;
+		}
+
+		span {
+			font-size: 0.95rem;
+		}
+	}
+}
+
+.property-services {
+	.services-title {
+		font-size: 1rem;
+		font-weight: 500;
+		color: #333;
+		margin-bottom: 1rem;
+	}
+
+	.services-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+
+	.service-item {
+		display: flex;
+		align-items: center;
+		margin-bottom: 0.75rem;
+		color: #555;
+
+		i {
+			width: 24px;
+			margin-right: 10px;
+			color: #0d6efd;
+		}
+
+		span {
+			font-size: 0.95rem;
+		}
+	}
+}
+
+.go-back {
+	font-size: 15px;
+	padding: 8px 12px;
+	margin-right: 1rem;
+	border-radius: 8px;
+	color: #666;
+	background-color: #f0f0f0;
+	text-decoration: none;
+	transition: all 0.3s ease;
+
+	&:hover {
+		background-color: #0d6efd;
+		color: white;
+	}
+}
+
+.availability,
+.small-availability {
+	border-radius: 50%;
+
+	&.availability-available {
+		background-color: #28a745;
+	}
+
+	&.availability-unavailable {
+		background-color: #dc3545;
+	}
+}
+
+.availability {
+	width: 20px;
+	height: 20px;
+}
+
+.small-availability {
+	width: 12px;
+	height: 12px;
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+	.info-container {
+		padding: 1.5rem;
+	}
+
+	.property-title {
+		font-size: 1.5rem;
+	}
+
+	.property-price {
+		font-size: 1.3rem;
+	}
 }
 </style>

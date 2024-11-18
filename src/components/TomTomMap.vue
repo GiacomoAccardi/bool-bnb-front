@@ -60,12 +60,7 @@ export default {
 	aspect-ratio: 1/1;
 
 	@media (min-width: 768px) {
-		height: 400px;
-		width: 100%;
-	}
-
-	@media (min-width: 1200px) {
-		height: 500px;
+		height: 100%;
 	}
 }
 
