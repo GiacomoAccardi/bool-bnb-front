@@ -3,7 +3,7 @@ export default {};
 </script>
 <template>
 	<!-- sezione per le card dove andremo a inserire la show con gli appartamenti per quella determinata città -->
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 			<div class="col-12 text-center mt-5">
 				<h1>Le migliori destinazioni per il tuo soggiorno al Bool BNB</h1>
@@ -208,7 +208,7 @@ export default {};
 	</div>
 </template>
 <style lang="scss" scoped>
-.container-fluid {
+.container {
 	overflow: hidden;
 	@media screen and (max-width: 768px) {
 		margin-top: 0px;

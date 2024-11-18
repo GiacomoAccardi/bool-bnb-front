@@ -22,6 +22,26 @@ export default {
 			activeServices: [],
 			canScrollLeft: false,
 			canScrollRight: false,
+			minPrice: 0,
+			maxPrice: 1000,
+			propertyType: "",
+			propertyTypes: [
+				"appartamento",
+				"villa",
+				"casa indipendente",
+				"villetta a schiera",
+				"loft",
+				"attico",
+				"monolocale",
+				"bilocale",
+				"trilocale",
+				"rustico",
+				"cottage",
+				"baita",
+				"mansarda",
+				"bungalow",
+			],
+			showOnlyAvailable: false,
 		};
 	},
 	methods: {
@@ -100,6 +120,28 @@ export default {
 				});
 			}
 
+			// Filtra per prezzo
+			if (this.minPrice > 0 || this.maxPrice > 0) {
+				filtered = filtered.filter((realEstate) => {
+					const price = realEstate.price;
+					return price >= this.minPrice && price <= this.maxPrice;
+				});
+			}
+
+			// Filtra per tipologia immobile
+			if (this.propertyType) {
+				filtered = filtered.filter(
+					(realEstate) => realEstate.structure_types === this.propertyType
+				);
+			}
+
+			// Filtra per disponibilità
+			if (this.showOnlyAvailable) {
+				filtered = filtered.filter(
+					(realEstate) => realEstate.availability === 1
+				);
+			}
+
 			this.filteredRealEstates = filtered;
 		},
 		calculateDistance(lat1, lon1, lat2, lon2) {
@@ -167,6 +209,18 @@ export default {
 		activeServices() {
 			this.filterRealEstates(this.coordinates);
 		},
+		minPrice() {
+			this.filterRealEstates(this.coordinates);
+		},
+		maxPrice() {
+			this.filterRealEstates(this.coordinates);
+		},
+		propertyType() {
+			this.filterRealEstates(this.coordinates);
+		},
+		showOnlyAvailable() {
+			this.filterRealEstates(this.coordinates);
+		},
 	},
 	created() {
 		this.getRealEstates();
@@ -212,8 +266,8 @@ export default {
 							data-bs-parent="#accordionExample">
 							<div class="accordion-body">
 								<div class="row">
-									<!-- Slider raggio -->
-									<div class="mb-4 col-12 col-lg-6">
+									<!-- Slider raggio - ora condizionale -->
+									<div v-if="coordinates" class="mb-4 col-12">
 										<label for="radius-slider" class="form-label text-center">
 											Raggio
 										</label>
@@ -245,6 +299,70 @@ export default {
 											<span id="roomsValue">{{ minRooms }}</span>
 										</div>
 									</div>
+
+									<!-- Filtro per prezzo -->
+									<div class="mb-4 col-12 col-md-6">
+										<label class="form-label text-center">Prezzo</label>
+										<div class="d-flex gap-2">
+											<div class="input-group">
+												<span class="input-group-text">€</span>
+												<input
+													type="number"
+													class="form-control"
+													v-model="minPrice"
+													min="0"
+													placeholder="Min" />
+											</div>
+											<div class="input-group">
+												<span class="input-group-text">€</span>
+												<input
+													type="number"
+													class="form-control"
+													v-model="maxPrice"
+													min="0"
+													value="1000"
+													placeholder="Max" />
+											</div>
+										</div>
+										<div class="text-center mt-2 text-muted">
+											<small>Prezzo: {{ minPrice }}€ - {{ maxPrice }}€</small>
+										</div>
+									</div>
+
+									<!-- Filtro per tipologia immobile -->
+									<div class="mb-4 col-12">
+										<label class="form-label text-center d-block"
+											>Tipologia Immobile</label
+										>
+										<div class="d-flex flex-wrap gap-2 justify-content-center">
+											<button
+												v-for="type in propertyTypes"
+												:key="type"
+												class="btn btn-outline-primary btn-sm"
+												:class="{ active: propertyType === type }"
+												@click="
+													propertyType = propertyType === type ? '' : type
+												">
+												{{ type.charAt(0).toUpperCase() + type.slice(1) }}
+											</button>
+										</div>
+									</div>
+
+									<!-- Toggle switch per la disponibilità -->
+									<div class="mb-4 col-12">
+										<div
+											class="form-check form-switch d-flex justify-content-center align-items-center gap-2">
+											<input
+												class="form-check-input"
+												type="checkbox"
+												role="switch"
+												id="availabilitySwitch"
+												v-model="showOnlyAvailable" />
+											<label class="form-check-label" for="availabilitySwitch">
+												Mostra solo disponibili
+											</label>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -273,10 +391,9 @@ export default {
 						<div
 							v-for="service in services"
 							:key="service.id"
-							class="btn border-0">
+							class="btn border-0 service-btn">
 							<div
 								class="service-icon d-flex justify-content-center align-items-center"
-								style="height: 35px; width: 35px"
 								@click="toggleService(service.id)"
 								:class="{
 									'not-active': !activeServices.includes(service.id),
@@ -284,6 +401,7 @@ export default {
 								}">
 								<i :class="service.icon + ' fa'"></i>
 							</div>
+							<div class="service-title">{{ service.name }}</div>
 						</div>
 					</div>
 				</div>
@@ -495,5 +613,37 @@ export default {
 
 .scroll-arrow i {
 	color: #1166ef;
+}
+
+.btn-outline-primary {
+	&.active {
+		background-color: #1166ef;
+		color: white;
+	}
+	&:hover {
+		background-color: #1166ef;
+		color: white;
+	}
+}
+
+.service-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 5px;
+}
+
+.service-title {
+	font-size: 0.8rem;
+	color: #666;
+	text-align: center;
+	max-width: 80px; // Limita la larghezza del testo
+	overflow-wrap: break-word;
+}
+
+.service-icon {
+	height: 35px;
+	width: 35px;
+	// ... mantieni gli altri stili esistenti ...
 }
 </style>

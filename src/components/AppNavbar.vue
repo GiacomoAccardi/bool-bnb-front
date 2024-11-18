@@ -35,34 +35,33 @@ export default {};
 	z-index: 1000;
 }
 
-li {
-	cursor: pointer;
-	position: relative;
+.content {
+	ul {
+		li {
+			a {
+				position: relative;
 
-	& a {
-		text-decoration: none;
-		color: inherit;
-		position: relative;
-		display: inline-block;
-	}
+				&::before {
+					content: "";
+					position: absolute;
+					width: 0;
+					height: 2px;
+					bottom: -5px;
+					left: 50%;
+					transform: translateX(-50%);
+					background-color: grey;
+					transition: width 0.3s ease;
 
-	&:hover a {
-		color: white;
-	}
+					@media screen and (min-width: 992px) {
+						background-color: white;
+					}
+				}
 
-	&:hover::after {
-		width: 110%;
-	}
-
-	&::after {
-		content: "";
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		width: 0%;
-		height: 2px;
-		background-color: white;
-		transition: width 0.3s ease-in-out;
+				&:hover::before {
+					width: 100%;
+				}
+			}
+		}
 	}
 }
 

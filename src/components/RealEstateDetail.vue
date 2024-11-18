@@ -646,6 +646,11 @@ textarea.form-control {
 
 .property-header {
 	margin-bottom: 1.5rem;
+
+	.d-flex {
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
 }
 
 .property-title {
@@ -781,6 +786,23 @@ textarea.form-control {
 
 	.property-price {
 		font-size: 1.3rem;
+	}
+
+	.property-header {
+		.d-flex {
+			flex-direction: column;
+			align-items: flex-start !important;
+
+			.sponsored-badge {
+				margin-left: 0 !important;
+				margin-top: 0.5rem;
+			}
+
+			.availability {
+				margin-left: 0 !important;
+				margin-top: 0.5rem;
+			}
+		}
 	}
 }
 
